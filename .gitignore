@@ -1,0 +1,9 @@
+# Build output
+app/.build/
+app/dist/
+.swiftpm/
+*.xcodeproj/xcuserdata/
+*.xcworkspace/xcuserdata/
+
+# macOS
+.DS_Store

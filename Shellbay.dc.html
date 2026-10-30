@@ -1,0 +1,1843 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root,[data-theme]{color-scheme:dark;--accent:#0a84ff;--ok:#30d158;--warn:#ffd60a;--bad:#ff453a;
+--wall:radial-gradient(1100px 760px at 18% 8%,oklch(0.42 0.09 255),transparent 62%),radial-gradient(900px 700px at 88% 92%,oklch(0.38 0.08 205),transparent 60%),#0c0e12;
+--win:#1e1e1e;--toolbar:#262626;--sidebar:rgba(40,40,42,0.62);--sidebarBorder:rgba(0,0,0,0.55);
+--text:rgba(255,255,255,0.88);--text2:rgba(255,255,255,0.56);--text3:rgba(255,255,255,0.32);
+--sep:rgba(255,255,255,0.08);--hover:rgba(255,255,255,0.07);--sel:rgba(255,255,255,0.11);
+--card:rgba(255,255,255,0.04);--cardHover:rgba(255,255,255,0.07);--cardBorder:rgba(255,255,255,0.07);--cardSel:rgba(10,132,255,0.16);
+--field:rgba(255,255,255,0.08);--menu:rgba(42,42,44,0.8);--menuBorder:rgba(255,255,255,0.12);
+--tabbar:#171717;--tabActive:#1e1e1e;--term:#141414;--termText:#e4e4e4;--tDim:#8a8a8e;--tRed:#ff6b61;--tGreen:#5ad87a;--tBlue:#64a8ff;
+--sheet:#2b2b2d;--btn:rgba(255,255,255,0.12);--shadow:0 30px 80px rgba(0,0,0,0.55),0 0 0 0.5px rgba(0,0,0,0.7);--inner:inset 0 0 0 0.5px rgba(255,255,255,0.14)}
+[data-theme="light"]{color-scheme:light;--accent:#007aff;--ok:#28b44a;--warn:#e6b800;--bad:#ff3b30;
+--wall:radial-gradient(1100px 760px at 18% 8%,oklch(0.86 0.06 255),transparent 62%),radial-gradient(900px 700px at 88% 92%,oklch(0.88 0.05 205),transparent 60%),#e9ebef;
+--win:#ffffff;--toolbar:#f6f6f6;--sidebar:rgba(234,234,237,0.68);--sidebarBorder:rgba(0,0,0,0.1);
+--text:rgba(0,0,0,0.86);--text2:rgba(0,0,0,0.55);--text3:rgba(0,0,0,0.35);
+--sep:rgba(0,0,0,0.08);--hover:rgba(0,0,0,0.05);--sel:rgba(0,0,0,0.08);
+--card:#fafafa;--cardHover:#f3f3f4;--cardBorder:rgba(0,0,0,0.08);--cardSel:rgba(0,122,255,0.09);
+--field:rgba(0,0,0,0.055);--menu:rgba(246,246,246,0.86);--menuBorder:rgba(0,0,0,0.12);
+--tabbar:#e8e8ea;--tabActive:#f6f6f6;--term:#ffffff;--termText:#1d1d1f;--tDim:#86868b;--tRed:#d70015;--tGreen:#248a3d;--tBlue:#0040dd;
+--sheet:#f2f2f4;--btn:#ffffff;--shadow:0 30px 80px rgba(0,0,0,0.22),0 0 0 0.5px rgba(0,0,0,0.22);--inner:inset 0 0 0 0.5px rgba(255,255,255,0.7)}
+body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text",Inter,sans-serif;-webkit-font-smoothing:antialiased}
+a{color:var(--accent)}a:hover{color:var(--accent);opacity:.8}
+@keyframes sbblink{0%,49%{opacity:1}50%,100%{opacity:0}}
+</style>
+</helmet>
+<div data-theme="{{ theme }}" style="min-height:100vh;box-sizing:border-box;padding:24px;display:grid;place-items:center;background:var(--wall);font-size:13px;color:var(--text);user-select:none">
+<div style="position:relative;width:min(1200px,100%);height:min(780px,calc(100vh - 48px));min-height:560px;border-radius:12px;overflow:hidden;display:flex;box-shadow:var(--shadow)">
+
+<aside style="width:224px;flex-shrink:0;display:flex;flex-direction:column;background:var(--sidebar);backdrop-filter:blur(40px) saturate(180%);-webkit-backdrop-filter:blur(40px) saturate(180%);border-right:0.5px solid var(--sidebarBorder)">
+<div style="height:52px;flex-shrink:0;display:flex;align-items:center;gap:8px;padding:0 20px">
+<div style="width:12px;height:12px;border-radius:50%;background:#ff5f57;box-shadow:inset 0 0 0 0.5px rgba(0,0,0,0.25)"></div>
+<div style="width:12px;height:12px;border-radius:50%;background:#febc2e;box-shadow:inset 0 0 0 0.5px rgba(0,0,0,0.25)"></div>
+<div style="width:12px;height:12px;border-radius:50%;background:#28c840;box-shadow:inset 0 0 0 0.5px rgba(0,0,0,0.25)"></div>
+</div>
+<div style="flex:1;overflow:auto;padding:0 10px;display:flex;flex-direction:column;gap:1px">
+<div style="font-size:11px;font-weight:600;color:var(--text3);padding:4px 8px 4px">Favorites</div>
+<div onClick="{{ go.hosts }}" style="display:flex;align-items:center;gap:8px;height:28px;padding:0 8px;border-radius:6px;background:{{ sb.hosts }}">
+<svg width="16" height="16" viewBox="0 0 16 16" style="fill:none;stroke:var(--accent);stroke-width:1.3;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0"><rect x="2.5" y="2.5" width="11" height="4.5" rx="1.2"></rect><rect x="2.5" y="9" width="11" height="4.5" rx="1.2"></rect><path d="M5 4.75h.01M5 11.25h.01"></path></svg>
+<span style="flex:1">Hosts</span><span style="font-size:11px;color:var(--text3)">{{ counts.all }}</span></div>
+<div onClick="{{ go.keychain }}" style="display:flex;align-items:center;gap:8px;height:28px;padding:0 8px;border-radius:6px;background:{{ sb.keychain }}">
+<svg width="16" height="16" viewBox="0 0 16 16" style="fill:none;stroke:var(--accent);stroke-width:1.3;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0"><circle cx="5" cy="8" r="2.8"></circle><path d="M7.8 8H14M12.2 8v2.2M10.2 8v1.6"></path></svg>
+<span style="flex:1">Keychain</span></div>
+<div onClick="{{ go.snippets }}" style="display:flex;align-items:center;gap:8px;height:28px;padding:0 8px;border-radius:6px;background:{{ sb.snippets }}">
+<svg width="16" height="16" viewBox="0 0 16 16" style="fill:none;stroke:var(--accent);stroke-width:1.3;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0"><rect x="2" y="2.5" width="12" height="11" rx="2"></rect><path d="M5 6.5l2 1.5-2 1.5M8.5 10.5H11"></path></svg>
+<span style="flex:1">Snippets</span></div>
+<div onClick="{{ go.sftp }}" style="display:flex;align-items:center;gap:8px;height:28px;padding:0 8px;border-radius:6px;background:{{ sb.sftp }}">
+<svg width="16" height="16" viewBox="0 0 16 16" style="fill:none;stroke:var(--accent);stroke-width:1.3;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0"><path d="M2 4.5C2 3.7 2.6 3 3.5 3h3L8 4.5h4.5c.8 0 1.5.7 1.5 1.5v5.5c0 .8-.7 1.5-1.5 1.5h-9c-.9 0-1.5-.7-1.5-1.5z"></path><path d="M8 11V7.3M6.4 8.8L8 7.2l1.6 1.6"></path></svg>
+<span style="flex:1">SFTP</span></div>
+<div onClick="{{ go.ports }}" style="display:flex;align-items:center;gap:8px;height:28px;padding:0 8px;border-radius:6px;background:{{ sb.ports }}">
+<svg width="16" height="16" viewBox="0 0 16 16" style="fill:none;stroke:var(--accent);stroke-width:1.3;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0"><path d="M2.5 5.5h10M10 3l2.5 2.5L10 8M13.5 10.5h-10M6 8l-2.5 2.5L6 13"></path></svg>
+<span style="flex:1">Port Forwarding</span></div>
+<div style="font-size:11px;font-weight:600;color:var(--text3);padding:14px 8px 4px">Groups</div>
+<div onClick="{{ go.production }}" style="display:flex;align-items:center;gap:8px;height:28px;padding:0 8px;border-radius:6px;background:{{ sb.production }}">
+<svg width="16" height="16" viewBox="0 0 16 16" style="fill:none;stroke:var(--accent);stroke-width:1.3;stroke-linejoin:round;flex-shrink:0"><path d="M2 4.5C2 3.7 2.6 3 3.5 3h3L8 4.5h4.5c.8 0 1.5.7 1.5 1.5v5.5c0 .8-.7 1.5-1.5 1.5h-9c-.9 0-1.5-.7-1.5-1.5z"></path></svg>
+<span style="flex:1">Production</span><span style="font-size:11px;color:var(--text3)">{{ counts.production }}</span></div>
+<div onClick="{{ go.staging }}" style="display:flex;align-items:center;gap:8px;height:28px;padding:0 8px;border-radius:6px;background:{{ sb.staging }}">
+<svg width="16" height="16" viewBox="0 0 16 16" style="fill:none;stroke:var(--accent);stroke-width:1.3;stroke-linejoin:round;flex-shrink:0"><path d="M2 4.5C2 3.7 2.6 3 3.5 3h3L8 4.5h4.5c.8 0 1.5.7 1.5 1.5v5.5c0 .8-.7 1.5-1.5 1.5h-9c-.9 0-1.5-.7-1.5-1.5z"></path></svg>
+<span style="flex:1">Staging</span><span style="font-size:11px;color:var(--text3)">{{ counts.staging }}</span></div>
+<div onClick="{{ go.personal }}" style="display:flex;align-items:center;gap:8px;height:28px;padding:0 8px;border-radius:6px;background:{{ sb.personal }}">
+<svg width="16" height="16" viewBox="0 0 16 16" style="fill:none;stroke:var(--accent);stroke-width:1.3;stroke-linejoin:round;flex-shrink:0"><path d="M2 4.5C2 3.7 2.6 3 3.5 3h3L8 4.5h4.5c.8 0 1.5.7 1.5 1.5v5.5c0 .8-.7 1.5-1.5 1.5h-9c-.9 0-1.5-.7-1.5-1.5z"></path></svg>
+<span style="flex:1">Personal</span><span style="font-size:11px;color:var(--text3)">{{ counts.personal }}</span></div>
+</div>
+<div style="padding:10px;border-top:0.5px solid var(--sep)">
+<div onClick="{{ go.settings }}" style="display:flex;align-items:center;gap:8px;height:28px;padding:0 8px;border-radius:6px;background:{{ sb.settings }}">
+<svg width="16" height="16" viewBox="0 0 16 16" style="fill:none;stroke:var(--accent);stroke-width:1.3;stroke-linecap:round;flex-shrink:0"><circle cx="8" cy="8" r="3"></circle><path d="M8 1.8v2M8 12.2v2M1.8 8h2M12.2 8h2M3.6 3.6L5 5M11 11l1.4 1.4M3.6 12.4L5 11M11 5l1.4-1.4"></path></svg>
+<span style="flex:1">Settings</span><span style="font-size:11px;color:var(--text3)">⌘,</span></div>
+</div>
+</aside>
+
+<main style="flex:1;min-width:0;display:flex;flex-direction:column;background:var(--win)">
+<div style="height:52px;flex-shrink:0;display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);align-items:center;gap:12px;padding:0 12px 0 14px;background:var(--toolbar);border-bottom:0.5px solid var(--sep)">
+<div style="display:flex;align-items:center;gap:6px">
+<sc-if value="{{ showViewToggle }}" hint-placeholder-val="{{ true }}">
+<div style="display:flex;padding:2px;border-radius:7px;background:var(--field)">
+<div onClick="{{ setGrid }}" title="Icon view" style="width:28px;height:22px;border-radius:5px;display:grid;place-items:center;background:{{ viewBtn.grid }};color:var(--text2)">
+<svg width="14" height="14" viewBox="0 0 16 16" style="fill:none;stroke:currentColor;stroke-width:1.4"><rect x="2.5" y="2.5" width="4.5" height="4.5" rx="1"></rect><rect x="9" y="2.5" width="4.5" height="4.5" rx="1"></rect><rect x="2.5" y="9" width="4.5" height="4.5" rx="1"></rect><rect x="9" y="9" width="4.5" height="4.5" rx="1"></rect></svg></div>
+<div onClick="{{ setList }}" title="List view" style="width:28px;height:22px;border-radius:5px;display:grid;place-items:center;background:{{ viewBtn.list }};color:var(--text2)">
+<svg width="14" height="14" viewBox="0 0 16 16" style="fill:none;stroke:currentColor;stroke-width:1.4;stroke-linecap:round"><path d="M5.5 4h8M5.5 8h8M5.5 12h8M2.5 4h.01M2.5 8h.01M2.5 12h.01"></path></svg></div>
+</div>
+</sc-if>
+<sc-if value="{{ showTerm }}" hint-placeholder-val="{{ false }}">
+<div style="display:flex;align-items:center;gap:8px;min-width:0">
+<div style="display:flex;padding:2px;border-radius:7px;background:var(--field);flex-shrink:0">
+<div onClick="{{ viewTerm }}" title="Terminal (⌘1)" style="display:flex;align-items:center;gap:5px;padding:2px 10px;border-radius:5px;font-size:12px;background:{{ vt.term }};box-shadow:{{ vt.termSh }};color:var(--text)">
+<svg width="13" height="13" viewBox="0 0 16 16" style="fill:none;stroke:currentColor;stroke-width:1.3;stroke-linecap:round;stroke-linejoin:round"><rect x="2" y="2.5" width="12" height="11" rx="2"></rect><path d="M5 6.5l2 1.5-2 1.5M8.5 10.5H11"></path></svg>Terminal</div>
+<div onClick="{{ viewMon }}" title="Monitor (⌘2)" style="display:flex;align-items:center;gap:5px;padding:2px 10px;border-radius:5px;font-size:12px;background:{{ vt.mon }};box-shadow:{{ vt.monSh }};color:var(--text)">
+<svg width="13" height="13" viewBox="0 0 16 16" style="fill:none;stroke:currentColor;stroke-width:1.3;stroke-linecap:round;stroke-linejoin:round"><path d="M1.5 9h2.7l1.8-4.5 3 8 2-5.5 1 2h2.5"></path></svg>Monitor</div>
+</div>
+<sc-if value="{{ showSplit }}" hint-placeholder-val="{{ true }}">
+<div style="display:flex;gap:2px">
+<div onClick="{{ splitRight }}" title="Split Right (⌘D)" style="width:30px;height:28px;border-radius:6px;display:grid;place-items:center;color:var(--text2);background:{{ splitBtn.row }}" style-hover="background:var(--hover)">
+<svg width="16" height="16" viewBox="0 0 16 16" style="fill:none;stroke:currentColor;stroke-width:1.3"><rect x="2" y="3" width="12" height="10" rx="2"></rect><path d="M8 3v10"></path></svg></div>
+<div onClick="{{ splitDown }}" title="Split Down (⇧⌘D)" style="width:30px;height:28px;border-radius:6px;display:grid;place-items:center;color:var(--text2);background:{{ splitBtn.column }}" style-hover="background:var(--hover)">
+<svg width="16" height="16" viewBox="0 0 16 16" style="fill:none;stroke:currentColor;stroke-width:1.3"><rect x="2" y="3" width="12" height="10" rx="2"></rect><path d="M2 8h12"></path></svg></div>
+</div>
+</sc-if>
+</div>
+</sc-if>
+</div>
+<div style="text-align:center;line-height:1.2;min-width:0">
+<div style="font-size:13px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ title }}</div>
+<div style="font-size:11px;color:var(--text2)">{{ subtitle }}</div>
+</div>
+<div style="display:flex;align-items:center;justify-content:flex-end;gap:4px">
+<div onClick="{{ toggleTheme }}" title="Toggle appearance" style="width:30px;height:28px;border-radius:6px;display:grid;place-items:center;color:var(--text2)" style-hover="background:var(--hover)">
+<svg width="16" height="16" viewBox="0 0 16 16" style="fill:none;stroke:currentColor;stroke-width:1.3"><circle cx="8" cy="8" r="5.8"></circle><path d="M8 2.2a5.8 5.8 0 0 1 0 11.6z" style="fill:currentColor"></path></svg></div>
+<div onClick="{{ openAdd }}" title="New Host (⌘N)" style="width:30px;height:28px;border-radius:6px;display:grid;place-items:center;color:var(--text2)" style-hover="background:var(--hover)">
+<svg width="16" height="16" viewBox="0 0 16 16" style="fill:none;stroke:currentColor;stroke-width:1.5;stroke-linecap:round"><path d="M8 3v10M3 8h10"></path></svg></div>
+<div style="display:flex;align-items:center;gap:6px;width:210px;height:28px;padding:0 8px;box-sizing:border-box;border-radius:7px;background:var(--field);margin-left:4px">
+<svg width="13" height="13" viewBox="0 0 16 16" style="fill:none;stroke:var(--text2);stroke-width:1.6;stroke-linecap:round;flex-shrink:0"><circle cx="7" cy="7" r="4.6"></circle><path d="M10.5 10.5L14 14"></path></svg>
+<input ref="{{ searchRef }}" value="{{ query }}" onChange="{{ onSearch }}" placeholder="Search" style="flex:1;min-width:0;background:transparent;border:0;outline:none;color:var(--text);font:inherit;font-size:13px;padding:0">
+<sc-if value="{{ noQuery }}" hint-placeholder-val="{{ true }}"><span style="font-size:11px;color:var(--text3);flex-shrink:0">⌘F</span></sc-if>
+<sc-if value="{{ hasQuery }}" hint-placeholder-val="{{ false }}"><div onClick="{{ clearSearch }}" style="width:14px;height:14px;border-radius:50%;background:var(--text3);display:grid;place-items:center;flex-shrink:0"><svg width="8" height="8" viewBox="0 0 16 16" style="fill:none;stroke:var(--win);stroke-width:2.6;stroke-linecap:round"><path d="M4.5 4.5l7 7M11.5 4.5l-7 7"></path></svg></div></sc-if>
+</div>
+</div>
+</div>
+
+<sc-if value="{{ hasTabs }}" hint-placeholder-val="{{ false }}">
+<div style="height:30px;flex-shrink:0;display:flex;background:var(--tabbar);border-bottom:0.5px solid var(--sep);font-size:12px">
+<div onClick="{{ homeTab.onClick }}" style="flex:0 1 150px;min-width:0;display:flex;align-items:center;justify-content:center;gap:6px;padding:0 10px;background:{{ homeTab.bg }};color:{{ homeTab.color }};border-right:0.5px solid var(--sep)">
+<svg width="12" height="12" viewBox="0 0 16 16" style="fill:none;stroke:currentColor;stroke-width:1.5;flex-shrink:0"><rect x="2.5" y="2.5" width="4.5" height="4.5" rx="1"></rect><rect x="9" y="2.5" width="4.5" height="4.5" rx="1"></rect><rect x="2.5" y="9" width="4.5" height="4.5" rx="1"></rect><rect x="9" y="9" width="4.5" height="4.5" rx="1"></rect></svg>
+<span style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ homeTab.label }}</span></div>
+<sc-for list="{{ tabs }}" as="t" hint-placeholder-count="1">
+<div onClick="{{ t.onClick }}" style="flex:0 1 210px;min-width:0;display:flex;align-items:center;gap:6px;padding:0 6px;background:{{ t.bg }};color:{{ t.fg }};border-right:0.5px solid var(--sep)">
+<div onClick="{{ t.onClose }}" title="Close Tab" style="width:16px;height:16px;border-radius:4px;display:grid;place-items:center;flex-shrink:0;color:var(--text3)" style-hover="background:var(--hover);color:var(--text)"><svg width="9" height="9" viewBox="0 0 16 16" style="fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round"><path d="M4 4l8 8M12 4l-8 8"></path></svg></div>
+<div style="flex:1;min-width:0;display:flex;align-items:center;justify-content:center;gap:6px;padding-right:16px">
+<span style="width:7px;height:7px;border-radius:50%;background:{{ t.dot }};flex-shrink:0"></span>
+<span style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ t.name }}</span>
+<sc-if value="{{ t.split }}" hint-placeholder-val="{{ false }}"><svg width="11" height="11" viewBox="0 0 16 16" style="fill:none;stroke:currentColor;stroke-width:1.4;opacity:0.6;flex-shrink:0"><rect x="2" y="3" width="12" height="10" rx="2"></rect><path d="M8 3v10"></path></svg></sc-if>
+</div>
+</div>
+</sc-for>
+<div ref="{{ plusRef }}" onClick="{{ openPicker }}" title="New Tab (⌘T)" style="width:32px;flex-shrink:0;display:grid;place-items:center;color:var(--text2)" style-hover="background:var(--hover);color:var(--text)">
+<svg width="13" height="13" viewBox="0 0 16 16" style="fill:none;stroke:currentColor;stroke-width:1.5;stroke-linecap:round"><path d="M8 3v10M3 8h10"></path></svg></div>
+<div style="flex:1"></div>
+</div>
+</sc-if>
+
+<sc-if value="{{ showHosts }}" hint-placeholder-val="{{ true }}">
+<div onClick="{{ clearSel }}" style="flex:1;overflow:auto;padding:20px 24px 28px;display:flex;flex-direction:column;gap:26px">
+<sc-for list="{{ groups }}" as="g" hint-placeholder-count="3">
+<section style="display:flex;flex-direction:column;gap:10px">
+<div style="display:flex;align-items:center;gap:7px">
+<svg width="15" height="15" viewBox="0 0 16 16" style="fill:none;stroke:var(--accent);stroke-width:1.3;stroke-linejoin:round"><path d="M2 4.5C2 3.7 2.6 3 3.5 3h3L8 4.5h4.5c.8 0 1.5.7 1.5 1.5v5.5c0 .8-.7 1.5-1.5 1.5h-9c-.9 0-1.5-.7-1.5-1.5z"></path></svg>
+<span style="font-size:13px;font-weight:600">{{ g.name }}</span>
+<span style="font-size:12px;color:var(--text3)">{{ g.count }}</span>
+</div>
+<sc-if value="{{ isGrid }}" hint-placeholder-val="{{ true }}">
+<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(232px,1fr));gap:10px">
+<sc-for list="{{ g.hosts }}" as="h" hint-placeholder-count="3">
+<div onClick="{{ h.onClick }}" onDoubleClick="{{ h.onDbl }}" onContextMenu="{{ h.onCtx }}" style="display:flex;flex-direction:column;gap:12px;padding:12px 14px;border-radius:10px;background:{{ h.bg }};border:0.5px solid var(--cardBorder);box-shadow:{{ h.ring }};cursor:default" style-hover="background:var(--cardHover)">
+<div style="display:flex;align-items:center;gap:10px;min-width:0">
+<svg width="32" height="32" viewBox="0 0 32 32" style="flex-shrink:0"><circle cx="16" cy="16" r="16" style="fill:#e95420"></circle><circle cx="16" cy="16" r="7" style="fill:none;stroke:#fff;stroke-width:2.4"></circle><circle cx="9" cy="16" r="2.7" style="fill:#fff;stroke:#e95420;stroke-width:1.3"></circle><circle cx="19.5" cy="9.94" r="2.7" style="fill:#fff;stroke:#e95420;stroke-width:1.3"></circle><circle cx="19.5" cy="22.06" r="2.7" style="fill:#fff;stroke:#e95420;stroke-width:1.3"></circle></svg>
+<div style="min-width:0;flex:1">
+<div style="display:flex;align-items:center;gap:6px;min-width:0"><span style="font-size:13px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ h.name }}</span><span title="Color" style="width:8px;height:8px;border-radius:2px;background:{{ h.color }};flex-shrink:0"></span></div>
+<div style="font-family:'SF Mono',ui-monospace,'JetBrains Mono',monospace;font-size:11.5px;color:var(--text2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-top:2px">{{ h.addr }}</div>
+</div>
+</div>
+<sc-if value="{{ h.hasTags }}" hint-placeholder-val="{{ false }}">
+<div style="display:flex;flex-wrap:wrap;gap:4px;margin-top:-4px">
+<sc-for list="{{ h.tags }}" as="tg" hint-placeholder-count="2"><span style="font-size:10.5px;padding:1px 7px;border-radius:10px;background:var(--field);color:var(--text2)">{{ tg }}</span></sc-for>
+</div>
+</sc-if>
+<div style="display:flex;align-items:center;gap:6px;font-size:11px;color:var(--text2)">
+<span style="width:7px;height:7px;border-radius:50%;background:{{ h.dot }}"></span>
+<span>{{ h.statusLabel }}</span>
+<span style="flex:1"></span>
+<span style="color:var(--text3)">{{ h.os }}</span>
+</div>
+</div>
+</sc-for>
+</div>
+</sc-if>
+<sc-if value="{{ isList }}" hint-placeholder-val="{{ false }}">
+<div style="display:flex;flex-direction:column;border-radius:10px;border:0.5px solid var(--cardBorder);overflow:hidden">
+<sc-for list="{{ g.hosts }}" as="h" hint-placeholder-count="3">
+<div onClick="{{ h.onClick }}" onDoubleClick="{{ h.onDbl }}" onContextMenu="{{ h.onCtx }}" style="display:grid;grid-template-columns:22px minmax(120px,1.2fr) minmax(140px,1.4fr) minmax(90px,1fr) 110px;align-items:center;gap:12px;height:36px;padding:0 14px;background:{{ h.bg }};box-shadow:{{ h.ring }};border-bottom:0.5px solid var(--sep)" style-hover="background:var(--cardHover)">
+<svg width="20" height="20" viewBox="0 0 32 32"><circle cx="16" cy="16" r="16" style="fill:#e95420"></circle><circle cx="16" cy="16" r="7" style="fill:none;stroke:#fff;stroke-width:2.6"></circle><circle cx="9" cy="16" r="2.9" style="fill:#fff;stroke:#e95420;stroke-width:1.3"></circle><circle cx="19.5" cy="9.94" r="2.9" style="fill:#fff;stroke:#e95420;stroke-width:1.3"></circle><circle cx="19.5" cy="22.06" r="2.9" style="fill:#fff;stroke:#e95420;stroke-width:1.3"></circle></svg>
+<span style="display:flex;align-items:center;gap:6px;min-width:0"><span style="width:8px;height:8px;border-radius:2px;background:{{ h.color }};flex-shrink:0"></span><span style="font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ h.name }}</span></span>
+<span style="font-family:'SF Mono',ui-monospace,'JetBrains Mono',monospace;font-size:11.5px;color:var(--text2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ h.addr }}</span>
+<span style="font-size:12px;color:var(--text3);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ h.os }}</span>
+<span style="display:flex;align-items:center;gap:6px;font-size:12px;color:var(--text2)"><span style="width:7px;height:7px;border-radius:50%;background:{{ h.dot }}"></span>{{ h.statusLabel }}</span>
+</div>
+</sc-for>
+</div>
+</sc-if>
+</section>
+</sc-for>
+<sc-if value="{{ noResults }}" hint-placeholder-val="{{ false }}">
+<div style="flex:1;display:grid;place-items:center;text-align:center;color:var(--text2)">
+<div><div style="font-size:15px;font-weight:600;color:var(--text)">No Results</div><div style="margin-top:4px">No hosts match “{{ query }}”.</div></div>
+</div>
+</sc-if>
+<sc-if value="{{ hasResults }}" hint-placeholder-val="{{ true }}">
+<div style="margin-top:auto;text-align:center;font-size:11px;color:var(--text3)">Double-click a host to connect · Right-click for more options</div>
+</sc-if>
+</div>
+</sc-if>
+
+<sc-if value="{{ showKeychain }}" hint-placeholder-val="{{ false }}">
+<div style="flex:1;overflow:auto;padding:20px 24px 28px;display:flex;flex-direction:column;gap:16px">
+<div style="display:flex;align-items:center;gap:8px">
+<div style="flex:1;min-width:0">
+<div style="font-size:15px;font-weight:600">SSH Keys</div>
+<div style="font-size:12px;color:var(--text2);margin-top:2px">Stored in the macOS Keychain. Private keys never leave this Mac.</div>
+</div>
+<div onClick="{{ kc.openImport }}" style="display:flex;align-items:center;gap:6px;padding:3px 12px;border-radius:6px;background:var(--btn);box-shadow:0 0 0 0.5px var(--cardBorder),0 0.5px 1px rgba(0,0,0,0.15)">
+<svg width="13" height="13" viewBox="0 0 16 16" style="fill:none;stroke:currentColor;stroke-width:1.4;stroke-linecap:round;stroke-linejoin:round"><path d="M8 2.5v7.5M5 7.2L8 10.2l3-3M3 12.5h10"></path></svg>Import Key…</div>
+<div onClick="{{ kc.openGenerate }}" style="display:flex;align-items:center;gap:6px;padding:3px 12px;border-radius:6px;background:var(--accent);color:#fff">
+<svg width="13" height="13" viewBox="0 0 16 16" style="fill:none;stroke:currentColor;stroke-width:1.5;stroke-linecap:round"><path d="M8 3v10M3 8h10"></path></svg>Generate Key</div>
+</div>
+<sc-if value="{{ kc.hasKeys }}" hint-placeholder-val="{{ true }}">
+<div style="display:flex;flex-direction:column;border-radius:10px;border:0.5px solid var(--cardBorder);overflow:hidden">
+<div style="display:grid;grid-template-columns:minmax(150px,1.4fr) 110px minmax(150px,1.2fr) 100px 76px;gap:12px;align-items:center;height:26px;padding:0 14px;font-size:11px;font-weight:600;color:var(--text3);background:var(--card);border-bottom:0.5px solid var(--sep)">
+<span>Name</span><span>Type</span><span>Fingerprint</span><span>Created</span><span></span></div>
+<sc-for list="{{ kc.rows }}" as="k" hint-placeholder-count="4">
+<div style="display:grid;grid-template-columns:minmax(150px,1.4fr) 110px minmax(150px,1.2fr) 100px 76px;gap:12px;align-items:center;min-height:48px;padding:6px 14px;border-bottom:0.5px solid var(--sep)" style-hover="background:var(--cardHover)">
+<div style="display:flex;align-items:center;gap:10px;min-width:0">
+<div style="width:28px;height:28px;border-radius:7px;background:var(--field);display:grid;place-items:center;flex-shrink:0">
+<svg width="16" height="16" viewBox="0 0 16 16" style="fill:none;stroke:var(--accent);stroke-width:1.3;stroke-linecap:round;stroke-linejoin:round"><circle cx="5" cy="8" r="2.8"></circle><path d="M7.8 8H14M12.2 8v2.2M10.2 8v1.6"></path></svg></div>
+<div style="min-width:0">
+<div style="font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ k.name }}</div>
+<div style="font-size:11px;color:var(--text3);margin-top:1px">{{ k.usedBy }}</div>
+</div></div>
+<span style="width:fit-content;font-size:11px;font-weight:500;padding:1px 8px;border-radius:10px;background:var(--field);color:var(--text)">{{ k.type }}</span>
+<span style="font-family:'SF Mono',ui-monospace,'JetBrains Mono',monospace;font-size:11.5px;color:var(--text2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ k.fp }}</span>
+<span style="font-size:12px;color:var(--text2)">{{ k.created }}</span>
+<div style="display:flex;justify-content:flex-end;gap:2px">
+<div onClick="{{ k.onCopy }}" title="Copy public key" style="width:28px;height:26px;border-radius:6px;display:grid;place-items:center;color:var(--text2)" style-hover="background:var(--hover);color:var(--text)">
+<svg width="15" height="15" viewBox="0 0 16 16" style="fill:none;stroke:currentColor;stroke-width:1.3;stroke-linejoin:round"><rect x="5.5" y="5.5" width="8" height="8" rx="1.8"></rect><path d="M10.5 3.8V3.5A1.5 1.5 0 0 0 9 2H3.5A1.5 1.5 0 0 0 2 3.5V9a1.5 1.5 0 0 0 1.5 1.5h.3"></path></svg></div>
+<div onClick="{{ k.onDelete }}" title="Delete Key" style="width:28px;height:26px;border-radius:6px;display:grid;place-items:center;color:var(--text2)" style-hover="background:var(--hover);color:var(--bad)">
+<svg width="15" height="15" viewBox="0 0 16 16" style="fill:none;stroke:currentColor;stroke-width:1.3;stroke-linecap:round;stroke-linejoin:round"><path d="M2.5 4.5h11M6 4.5V3a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v1.5M4 4.5l.6 8a1.5 1.5 0 0 0 1.5 1.4h3.8a1.5 1.5 0 0 0 1.5-1.4l.6-8M6.8 7v4M9.2 7v4"></path></svg></div>
+</div>
+</div>
+</sc-for>
+</div>
+</sc-if>
+<sc-if value="{{ kc.empty }}" hint-placeholder-val="{{ false }}">
+<div style="flex:1;display:grid;place-items:center;text-align:center;color:var(--text2)"><div><div style="font-size:15px;font-weight:600;color:var(--text)">No SSH Keys</div><div style="margin-top:4px">Generate a new key or import an existing one.</div></div></div>
+</sc-if>
+</div>
+</sc-if>
+
+<sc-if value="{{ showSftp }}" hint-placeholder-val="{{ false }}">
+<div style="flex:1;min-height:0;display:flex;flex-direction:column">
+<div style="flex:1;min-height:0;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:1px;background:var(--sep)">
+<sc-for list="{{ ftp.panes }}" as="p" hint-placeholder-count="2">
+<div onDragOver="{{ p.onDragOver }}" onDragLeave="{{ p.onDragLeave }}" onDrop="{{ p.onDrop }}" style="position:relative;display:flex;flex-direction:column;min-width:0;min-height:0;background:var(--win)">
+<div style="height:40px;flex-shrink:0;display:flex;align-items:center;gap:8px;padding:0 10px 0 14px;border-bottom:0.5px solid var(--sep)">
+<sc-if value="{{ p.isLocal }}" hint-placeholder-val="{{ true }}">
+<svg width="17" height="17" viewBox="0 0 16 16" style="fill:none;stroke:var(--accent);stroke-width:1.2;stroke-linejoin:round;flex-shrink:0"><rect x="3" y="3.5" width="10" height="7" rx="1.2"></rect><path d="M1.5 12.5h13"></path></svg>
+<span style="font-weight:600">Local</span>
+<span style="color:var(--text3);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">minh’s MacBook Pro</span>
+</sc-if>
+<sc-if value="{{ p.isRemote }}" hint-placeholder-val="{{ false }}">
+<svg width="17" height="17" viewBox="0 0 16 16" style="fill:none;stroke:var(--accent);stroke-width:1.2;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0"><rect x="2.5" y="2.5" width="11" height="4.5" rx="1.2"></rect><rect x="2.5" y="9" width="11" height="4.5" rx="1.2"></rect><path d="M5 4.75h.01M5 11.25h.01"></path></svg>
+<span style="font-weight:600">Remote</span>
+<span style="width:7px;height:7px;border-radius:50%;background:{{ p.hostDot }};flex-shrink:0"></span>
+<select value="{{ p.hostValue }}" onChange="{{ p.onHost }}" style="height:24px;padding:0 6px;border-radius:6px;border:0.5px solid var(--cardBorder);background:var(--btn);color:var(--text);font:inherit;min-width:0;max-width:200px">
+<sc-for list="{{ p.hostOptions }}" as="o" hint-placeholder-count="7"><option value="{{ o.id }}">{{ o.label }}</option></sc-for>
+</select>
+</sc-if>
+<span style="flex:1"></span>
+<div onClick="{{ p.onUp }}" title="Enclosing Folder (⌘↑)" style="width:28px;height:26px;border-radius:6px;display:grid;place-items:center;color:var(--text2);opacity:{{ p.upOpacity }}" style-hover="background:var(--hover)">
+<svg width="14" height="14" viewBox="0 0 16 16" style="fill:none;stroke:currentColor;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round"><path d="M8 13V3.5M4 7.5l4-4 4 4"></path></svg></div>
+</div>
+<div style="height:28px;flex-shrink:0;display:flex;align-items:center;gap:2px;padding:0 10px;font-size:12px;border-bottom:0.5px solid var(--sep);overflow:hidden;white-space:nowrap">
+<sc-for list="{{ p.crumbs }}" as="c" hint-placeholder-count="3">
+<div style="display:flex;align-items:center;gap:2px;flex-shrink:0">
+<sc-if value="{{ c.sep }}" hint-placeholder-val="{{ true }}"><svg width="10" height="10" viewBox="0 0 16 16" style="fill:none;stroke:var(--text3);stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round"><path d="M6 3.5L10.5 8 6 12.5"></path></svg></sc-if>
+<span onClick="{{ c.onClick }}" style="padding:2px 5px;border-radius:4px;color:{{ c.color }};font-weight:{{ c.w }}" style-hover="background:var(--hover)">{{ c.label }}</span>
+</div>
+</sc-for>
+</div>
+<div style="height:24px;flex-shrink:0;display:grid;grid-template-columns:18px minmax(80px,1fr) minmax(0,64px) minmax(0,110px);gap:8px;align-items:center;padding:0 20px;font-size:11px;font-weight:600;color:var(--text3);border-bottom:0.5px solid var(--sep)">
+<span></span><span>Name</span><span style="text-align:right">Size</span><span>Date Modified</span></div>
+<div style="flex:1;min-height:0;overflow:auto;padding:2px 0">
+<sc-if value="{{ p.showRows }}" hint-placeholder-val="{{ true }}">
+<sc-for list="{{ p.rows }}" as="r" hint-placeholder-count="6">
+<div draggable="true" onDragStart="{{ r.onDragStart }}" onDragEnd="{{ r.onDragEnd }}" onClick="{{ r.onClick }}" onDoubleClick="{{ r.onDbl }}" style="height:24px;display:grid;grid-template-columns:18px minmax(80px,1fr) minmax(0,64px) minmax(0,110px);gap:8px;align-items:center;padding:0 14px;margin:0 6px;border-radius:5px;background:{{ r.bg }};color:{{ r.fg }}">
+<span style="display:grid;place-items:center;color:{{ r.icon }}">
+<sc-if value="{{ r.isDir }}" hint-placeholder-val="{{ false }}"><svg width="16" height="16" viewBox="0 0 16 16"><path d="M1.5 4.3c0-.8.6-1.5 1.4-1.5h3.2l1.5 1.5h5.5c.8 0 1.4.6 1.4 1.4v6.1c0 .8-.6 1.4-1.4 1.4H2.9c-.8 0-1.4-.6-1.4-1.4z" style="fill:currentColor;opacity:0.9"></path></svg></sc-if>
+<sc-if value="{{ r.isCode }}" hint-placeholder-val="{{ false }}"><svg width="16" height="16" viewBox="0 0 16 16" style="fill:none;stroke:currentColor;stroke-width:1.1;stroke-linecap:round;stroke-linejoin:round"><path d="M9 1.8H4.3c-.6 0-1 .4-1 1v10.4c0 .6.4 1 1 1h7.4c.6 0 1-.4 1-1V5.5z"></path><path d="M9 1.8v3.7h3.7M6.6 8.4L5.3 9.8l1.3 1.4M9.4 8.4l1.3 1.4-1.3 1.4"></path></svg></sc-if>
+<sc-if value="{{ r.isArc }}" hint-placeholder-val="{{ false }}"><svg width="16" height="16" viewBox="0 0 16 16" style="fill:none;stroke:currentColor;stroke-width:1.1;stroke-linejoin:round"><rect x="2.3" y="2.5" width="11.4" height="3" rx="0.8"></rect><path d="M3.2 5.5v7c0 .6.4 1 1 1h7.6c.6 0 1-.4 1-1v-7M6.5 8h3"></path></svg></sc-if>
+<sc-if value="{{ r.isImg }}" hint-placeholder-val="{{ false }}"><svg width="16" height="16" viewBox="0 0 16 16" style="fill:none;stroke:currentColor;stroke-width:1.1;stroke-linejoin:round"><rect x="2" y="3" width="12" height="10" rx="1.5"></rect><circle cx="5.7" cy="6.3" r="1.1"></circle><path d="M2.5 11.5l3.3-3 2.5 2.2 2-1.7 3.2 2.6"></path></svg></sc-if>
+<sc-if value="{{ r.isDoc }}" hint-placeholder-val="{{ false }}"><svg width="16" height="16" viewBox="0 0 16 16" style="fill:none;stroke:currentColor;stroke-width:1.1;stroke-linecap:round;stroke-linejoin:round"><path d="M9 1.8H4.3c-.6 0-1 .4-1 1v10.4c0 .6.4 1 1 1h7.4c.6 0 1-.4 1-1V5.5z"></path><path d="M9 1.8v3.7h3.7M5.6 8.5h4.8M5.6 10.8h3.4"></path></svg></sc-if>
+</span>
+<span style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ r.name }}</span>
+<span style="text-align:right;font-size:12px;color:{{ r.sub }};font-variant-numeric:tabular-nums;white-space:nowrap">{{ r.size }}</span>
+<span style="font-size:12px;color:{{ r.sub }};white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ r.mod }}</span>
+</div>
+</sc-for>
+</sc-if>
+<sc-if value="{{ p.empty }}" hint-placeholder-val="{{ false }}"><div style="padding:40px 16px;text-align:center;color:var(--text3)">Folder is empty</div></sc-if>
+<sc-if value="{{ p.loading }}" hint-placeholder-val="{{ false }}"><div style="padding:40px 16px;text-align:center;color:var(--text2)">Connecting to {{ p.hostName }}…</div></sc-if>
+<sc-if value="{{ p.error }}" hint-placeholder-val="{{ false }}">
+<div style="padding:40px 24px;display:flex;flex-direction:column;align-items:center;gap:6px;text-align:center">
+<svg width="28" height="28" viewBox="0 0 16 16" style="fill:none;stroke:var(--bad);stroke-width:1.1;stroke-linecap:round"><circle cx="8" cy="8" r="6"></circle><path d="M8 4.8v3.8M8 11h.01"></path></svg>
+<div style="font-weight:600">Can’t connect to {{ p.hostName }}</div>
+<div style="font-family:'SF Mono',ui-monospace,'JetBrains Mono',monospace;font-size:11px;color:var(--text2)">{{ p.errorMsg }}</div>
+</div>
+</sc-if>
+</div>
+<div style="height:24px;flex-shrink:0;display:flex;align-items:center;padding:0 14px;font-size:11px;color:var(--text3);border-top:0.5px solid var(--sep);background:var(--toolbar)">{{ p.footer }}</div>
+<sc-if value="{{ p.isOver }}" hint-placeholder-val="{{ false }}">
+<div style="position:absolute;inset:0;pointer-events:none;box-shadow:inset 0 0 0 2px var(--accent);background:color-mix(in srgb, var(--accent) 7%, transparent);display:flex;align-items:flex-end;justify-content:center;padding-bottom:40px">
+<div style="padding:5px 12px;border-radius:8px;background:var(--accent);color:#fff;font-size:12px;font-weight:500;max-width:80%;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ p.dropLabel }}</div>
+</div>
+</sc-if>
+</div>
+</sc-for>
+</div>
+<sc-if value="{{ hasQueue }}" hint-placeholder-val="{{ false }}">
+<div style="flex-shrink:0;max-height:200px;display:flex;flex-direction:column;border-top:0.5px solid var(--sep);background:var(--toolbar)">
+<div style="height:30px;flex-shrink:0;display:flex;align-items:center;gap:8px;padding:0 14px;border-bottom:0.5px solid var(--sep)">
+<span style="font-weight:600">Transfers</span>
+<span style="font-size:12px;color:var(--text2)">{{ queueSummary }}</span>
+<span style="flex:1"></span>
+<div onClick="{{ clearDone }}" style="font-size:12px;padding:2px 10px;border-radius:5px;background:var(--btn);box-shadow:0 0 0 0.5px var(--cardBorder)">Clear Completed</div>
+</div>
+<div style="flex:1;min-height:0;overflow:auto">
+<sc-for list="{{ queueRows }}" as="q" hint-placeholder-count="2">
+<div style="display:grid;grid-template-columns:24px minmax(0,1fr) minmax(100px,200px) 190px 22px;gap:12px;align-items:center;height:42px;padding:0 14px;border-bottom:0.5px solid var(--sep)">
+<div style="width:24px;height:24px;border-radius:50%;display:grid;place-items:center;background:var(--field);color:{{ q.iconColor }}">
+<sc-if value="{{ q.up }}" hint-placeholder-val="{{ true }}"><svg width="12" height="12" viewBox="0 0 16 16" style="fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round"><path d="M8 13V3M4 7l4-4 4 4"></path></svg></sc-if>
+<sc-if value="{{ q.down }}" hint-placeholder-val="{{ false }}"><svg width="12" height="12" viewBox="0 0 16 16" style="fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round"><path d="M8 3v10M4 9l4 4 4-4"></path></svg></sc-if>
+</div>
+<div style="min-width:0">
+<div style="font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ q.name }}</div>
+<div style="font-size:11px;color:var(--text3);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-family:'SF Mono',ui-monospace,'JetBrains Mono',monospace">{{ q.route }}</div>
+</div>
+<div style="display:flex;align-items:center;gap:8px">
+<div style="flex:1;height:5px;border-radius:3px;background:var(--field);overflow:hidden"><div style="height:100%;width:{{ q.pct }}%;border-radius:3px;background:{{ q.barColor }}"></div></div>
+<span style="width:34px;text-align:right;font-size:11px;color:var(--text2);font-variant-numeric:tabular-nums">{{ q.pctLabel }}</span>
+</div>
+<span style="font-size:11px;color:{{ q.detailColor }};white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-variant-numeric:tabular-nums">{{ q.detail }}</span>
+<sc-if value="{{ q.canCancel }}" hint-placeholder-val="{{ false }}">
+<div onClick="{{ q.onCancel }}" title="Cancel" style="width:18px;height:18px;border-radius:50%;display:grid;place-items:center;background:var(--text3);color:var(--win)"><svg width="8" height="8" viewBox="0 0 16 16" style="fill:none;stroke:currentColor;stroke-width:2.6;stroke-linecap:round"><path d="M4.5 4.5l7 7M11.5 4.5l-7 7"></path></svg></div>
+</sc-if>
+</div>
+</sc-for>
+</div>
+</div>
+</sc-if>
+</div>
+</sc-if>
+
+<sc-if value="{{ showSnippets }}" hint-placeholder-val="{{ false }}">
+<div style="flex:1;overflow:auto;padding:20px 24px 28px;display:flex;flex-direction:column;gap:16px">
+<div style="display:flex;align-items:center;gap:8px">
+<div style="flex:1;min-width:0">
+<div style="font-size:15px;font-weight:600">Snippets</div>
+<div style="font-size:12px;color:var(--text2);margin-top:2px">Saved commands you can run on any host in one click.</div>
+</div>
+<div onClick="{{ snl.openNew }}" style="display:flex;align-items:center;gap:6px;padding:3px 12px;border-radius:6px;background:var(--accent);color:#fff">
+<svg width="13" height="13" viewBox="0 0 16 16" style="fill:none;stroke:currentColor;stroke-width:1.5;stroke-linecap:round"><path d="M8 3v10M3 8h10"></path></svg>New Snippet</div>
+</div>
+<sc-if value="{{ snl.has }}" hint-placeholder-val="{{ true }}">
+<div style="display:flex;flex-direction:column;gap:10px">
+<sc-for list="{{ snl.rows }}" as="sn" hint-placeholder-count="4">
+<div style="display:flex;flex-direction:column;gap:10px;padding:12px 14px;border-radius:10px;background:var(--card);border:0.5px solid var(--cardBorder)">
+<div style="display:flex;align-items:center;gap:8px">
+<svg width="16" height="16" viewBox="0 0 16 16" style="fill:none;stroke:var(--accent);stroke-width:1.3;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0"><rect x="2" y="2.5" width="12" height="11" rx="2"></rect><path d="M5 6.5l2 1.5-2 1.5M8.5 10.5H11"></path></svg>
+<span style="font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0">{{ sn.name }}</span>
+<sc-for list="{{ sn.tags }}" as="tg" hint-placeholder-count="2"><span style="font-size:10.5px;padding:1px 7px;border-radius:10px;background:var(--field);color:var(--text2);flex-shrink:0">{{ tg }}</span></sc-for>
+<span style="flex:1"></span>
+<div onClick="{{ sn.onEdit }}" title="Edit" style="width:28px;height:26px;border-radius:6px;display:grid;place-items:center;color:var(--text2);flex-shrink:0" style-hover="background:var(--hover);color:var(--text)">
+<svg width="15" height="15" viewBox="0 0 16 16" style="fill:none;stroke:currentColor;stroke-width:1.3;stroke-linecap:round;stroke-linejoin:round"><path d="M10.5 3l2.5 2.5L6 12.5l-3.3.8.8-3.3zM9 4.5L11.5 7"></path></svg></div>
+<div onClick="{{ sn.onDelete }}" title="Delete" style="width:28px;height:26px;border-radius:6px;display:grid;place-items:center;color:var(--text2);flex-shrink:0" style-hover="background:var(--hover);color:var(--bad)">
+<svg width="15" height="15" viewBox="0 0 16 16" style="fill:none;stroke:currentColor;stroke-width:1.3;stroke-linecap:round;stroke-linejoin:round"><path d="M2.5 4.5h11M6 4.5V3a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v1.5M4 4.5l.6 8a1.5 1.5 0 0 0 1.5 1.4h3.8a1.5 1.5 0 0 0 1.5-1.4l.6-8M6.8 7v4M9.2 7v4"></path></svg></div>
+<div onClick="{{ sn.onRun }}" style="display:flex;align-items:center;gap:5px;padding:2px 12px;border-radius:6px;background:var(--btn);box-shadow:0 0 0 0.5px var(--cardBorder),0 0.5px 1px rgba(0,0,0,0.15);flex-shrink:0">
+<svg width="10" height="10" viewBox="0 0 16 16" style="fill:var(--accent)"><path d="M4 2.5v11l9-5.5z"></path></svg>Run</div>
+</div>
+<div style="font-family:'SF Mono',ui-monospace,'JetBrains Mono',monospace;font-size:12px;padding:7px 10px;border-radius:6px;background:var(--term);color:var(--termText);white-space:pre-wrap;word-break:break-all;user-select:text;box-shadow:inset 0 0 0 0.5px var(--cardBorder)"><span style="color:var(--tDim)">$ </span>{{ sn.cmd }}</div>
+</div>
+</sc-for>
+</div>
+</sc-if>
+<sc-if value="{{ snl.empty }}" hint-placeholder-val="{{ false }}">
+<div style="flex:1;display:grid;place-items:center;text-align:center;color:var(--text2)"><div><div style="font-size:15px;font-weight:600;color:var(--text)">{{ snl.emptyTitle }}</div><div style="margin-top:4px">{{ snl.emptyDesc }}</div></div></div>
+</sc-if>
+</div>
+</sc-if>
+
+<sc-if value="{{ showSettings }}" hint-placeholder-val="{{ false }}">
+<div style="flex:1;overflow:auto;padding:20px 24px 32px">
+<div style="max-width:680px;margin:0 auto;display:flex;flex-direction:column;gap:20px">
+<div style="display:flex;justify-content:center"><div style="display:flex;padding:2px;border-radius:8px;background:var(--field)">
+<sc-for list="{{ st.tabs }}" as="tb" hint-placeholder-count="4"><div onClick="{{ tb.onClick }}" style="padding:3px 16px;border-radius:6px;background:{{ tb.bg }};box-shadow:{{ tb.sh }};color:var(--text)">{{ tb.label }}</div></sc-for>
+</div></div>
+<sc-if value="{{ st.isApp }}" hint-placeholder-val="{{ true }}">
+<div style="display:flex;flex-direction:column;gap:8px"><div style="font-size:11px;font-weight:600;color:var(--text3);padding:0 4px">Terminal Theme</div><div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(145px,1fr));gap:10px">
+<sc-for list="{{ st.themes }}" as="tm" hint-placeholder-count="4">
+<div onClick="{{ tm.onClick }}" style="display:flex;flex-direction:column;gap:6px;cursor:default">
+<div style="height:82px;box-sizing:border-box;padding:9px 10px;border-radius:8px;background:{{ tm.bg }};box-shadow:{{ tm.ring }};font-family:'SF Mono',ui-monospace,'JetBrains Mono',monospace;font-size:10px;line-height:1.55;overflow:hidden;color:{{ tm.fg }}"><div style="white-space:pre"><span style="color:{{ tm.green }};font-weight:600">ubuntu@web</span>:<span style="color:{{ tm.blue }};font-weight:600">~</span>$ ls</div><div style="white-space:pre"><span style="color:{{ tm.blue }};font-weight:600">app</span>  <span style="color:{{ tm.green }};font-weight:600">deploy.sh</span></div><div style="white-space:pre;color:{{ tm.red }}">error: denied</div><div style="white-space:pre;color:{{ tm.dim }}"># 23 days up</div></div>
+<div style="display:flex;align-items:center;justify-content:center;gap:5px;font-size:12px"><span>{{ tm.name }}</span><sc-if value="{{ tm.on }}" hint-placeholder-val="{{ false }}"><svg width="12" height="12" viewBox="0 0 16 16" style="fill:none;stroke:var(--accent);stroke-width:2;stroke-linecap:round;stroke-linejoin:round"><path d="M3.5 8.5l3 3 6-7"></path></svg></sc-if></div>
+</div>
+</sc-for></div></div>
+<div style="display:flex;flex-direction:column;gap:8px"><div style="font-size:11px;font-weight:600;color:var(--text3);padding:0 4px">Text &amp; Cursor</div><div style="border-radius:10px;border:0.5px solid var(--cardBorder);background:var(--card);overflow:hidden"><div style="margin-bottom:-0.5px"><div style="display:flex;align-items:center;gap:16px;min-height:44px;padding:8px 14px;border-bottom:0.5px solid var(--sep)"><div style="flex:1;min-width:0"><div>Font size</div></div><div style="display:flex;align-items:center;gap:10px"><input type="range" min="10" max="20" step="1" value="{{ st.fontSize }}" onChange="{{ st.onFont }}" style="width:180px;accent-color:var(--accent)"><span style="width:42px;text-align:right;font-variant-numeric:tabular-nums;color:var(--text2)">{{ st.fontLabel }}</span></div></div><div style="display:flex;align-items:center;gap:16px;min-height:44px;padding:8px 14px;border-bottom:0.5px solid var(--sep)"><div style="flex:1;min-width:0"><div>Cursor style</div></div><div style="display:flex;padding:2px;border-radius:7px;background:var(--field)"><sc-for list="{{ st.cursors }}" as="cu" hint-placeholder-count="3"><div onClick="{{ cu.onClick }}" style="padding:2px 12px;border-radius:5px;background:{{ cu.bg }};box-shadow:{{ cu.sh }};color:var(--text)">{{ cu.label }}</div></sc-for></div></div></div></div></div>
+<div style="display:flex;flex-direction:column;gap:8px"><div style="font-size:11px;font-weight:600;color:var(--text3);padding:0 4px">Preview</div><div style="padding:12px 14px;border-radius:10px;background:{{ st.pv.bg }};color:{{ st.pv.fg }};font-family:'SF Mono',ui-monospace,'JetBrains Mono',monospace;font-size:{{ st.pv.fs }}px;line-height:1.5;overflow:hidden;box-shadow:inset 0 0 0 0.5px var(--cardBorder)">
+<div style="white-space:pre"><span style="color:{{ st.pv.green }};font-weight:600">ubuntu@web-prod-01</span>:<span style="color:{{ st.pv.blue }};font-weight:600">~</span>$ ls -l</div>
+<div style="white-space:pre;color:{{ st.pv.dim }}">total 12</div>
+<div style="white-space:pre">drwxr-xr-x 3 ubuntu ubuntu 4096 Oct 28 21:14 <span style="color:{{ st.pv.blue }};font-weight:600">app</span></div>
+<div style="white-space:pre">-rwxr-xr-x 1 ubuntu ubuntu 2319 Oct 24 15:44 <span style="color:{{ st.pv.green }};font-weight:600">deploy.sh</span></div>
+<div style="white-space:pre;color:{{ st.pv.red }}">cat: secrets.env: Permission denied</div>
+<div style="white-space:pre"><span style="color:{{ st.pv.green }};font-weight:600">ubuntu@web-prod-01</span>:<span style="color:{{ st.pv.blue }};font-weight:600">~</span>$ <span style="display:inline-block;width:{{ st.pv.curW }};height:{{ st.pv.curH }};background:{{ st.pv.curBg }};vertical-align:{{ st.pv.curVA }}"></span></div></div></div>
+</sc-if>
+<sc-if value="{{ st.isKeys }}" hint-placeholder-val="{{ false }}">
+<sc-for list="{{ st.shortcuts }}" as="shg" hint-placeholder-count="3">
+<div style="display:flex;flex-direction:column;gap:8px"><div style="font-size:11px;font-weight:600;color:var(--text3);padding:0 4px">{{ shg.title }}</div><div style="border-radius:10px;border:0.5px solid var(--cardBorder);background:var(--card);overflow:hidden"><div style="margin-bottom:-0.5px"><sc-for list="{{ shg.items }}" as="shk" hint-placeholder-count="4"><div style="display:flex;align-items:center;gap:16px;min-height:36px;padding:6px 14px;border-bottom:0.5px solid var(--sep)"><span style="flex:1">{{ shk.label }}</span><div style="display:flex;gap:3px"><sc-for list="{{ shk.keys }}" as="kk" hint-placeholder-count="2"><span style="min-width:22px;height:22px;box-sizing:border-box;padding:0 6px;border-radius:5px;display:inline-grid;place-items:center;font-size:12px;background:var(--btn);box-shadow:0 0 0 0.5px var(--cardBorder),0 0.5px 1px rgba(0,0,0,0.15);color:var(--text);font-family:-apple-system,'SF Pro Text',Inter,sans-serif">{{ kk.k }}</span></sc-for></div></div></sc-for></div></div></div>
+</sc-for>
+</sc-if>
+<sc-if value="{{ st.isSec }}" hint-placeholder-val="{{ false }}">
+<div style="display:flex;flex-direction:column;gap:8px"><div style="font-size:11px;font-weight:600;color:var(--text3);padding:0 4px">App Lock</div><div style="border-radius:10px;border:0.5px solid var(--cardBorder);background:var(--card);overflow:hidden"><div style="margin-bottom:-0.5px"><div style="display:flex;align-items:center;gap:16px;min-height:44px;padding:8px 14px;border-bottom:0.5px solid var(--sep)"><div style="flex:1;min-width:0"><div>Require PIN to open Shellbay</div><div style="font-size:11px;color:var(--text3);margin-top:2px;line-height:1.35;text-wrap:pretty">Protects your hosts, keys and sessions when the app is idle or reopened.</div></div><div onClick="{{ st.onPinToggle }}" style="width:38px;height:22px;border-radius:11px;background:{{ st.pinBg }};position:relative;flex-shrink:0;transition:background .15s"><div style="position:absolute;top:2px;left:{{ st.pinLeft }}px;width:18px;height:18px;border-radius:50%;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,0.3);transition:left .15s"></div></div></div><div style="display:flex;align-items:center;gap:16px;min-height:44px;padding:8px 14px;border-bottom:0.5px solid var(--sep)"><div style="flex:1;min-width:0"><div>Auto-lock after</div><div style="font-size:11px;color:var(--text3);margin-top:2px;line-height:1.35;text-wrap:pretty">Locks the app after this long without any activity.</div></div><select value="{{ st.lockValue }}" onChange="{{ st.onLock }}" disabled="{{ st.lockDisabled }}" style="height:24px;padding:0 6px;border-radius:6px;border:0.5px solid var(--cardBorder);background:var(--btn);color:var(--text);font:inherit;min-width:110px;flex-shrink:0"><sc-for list="{{ st.lockOpts }}" as="o" hint-placeholder-count="4"><option value="{{ o.v }}">{{ o.label }}</option></sc-for></select></div><div style="display:flex;align-items:center;gap:16px;min-height:44px;padding:8px 14px;border-bottom:0.5px solid var(--sep)"><div style="flex:1;min-width:0"><div>Change PIN</div></div><div onClick="{{ st.onChangePin }}" style="padding:2px 12px;border-radius:6px;background:var(--btn);box-shadow:0 0 0 0.5px var(--cardBorder),0 0.5px 1px rgba(0,0,0,0.15);flex-shrink:0;opacity:{{ st.pinOp }}">Change PIN…</div></div><div style="display:flex;align-items:center;gap:16px;min-height:44px;padding:8px 14px;border-bottom:0.5px solid var(--sep)"><div style="flex:1;min-width:0"><div>Lock now</div><div style="font-size:11px;color:var(--text3);margin-top:2px;line-height:1.35;text-wrap:pretty">Lock immediately. Shortcut ⌃⌘L.</div></div><div onClick="{{ st.lockNow }}" style="padding:2px 12px;border-radius:6px;background:var(--btn);box-shadow:0 0 0 0.5px var(--cardBorder),0 0.5px 1px rgba(0,0,0,0.15);flex-shrink:0;opacity:{{ st.pinOp }}">Lock Now</div></div></div></div></div>
+<div style="font-size:11px;color:var(--text3);padding:0 4px;margin-top:-10px;line-height:1.4">The PIN is stored in the macOS Keychain. Active terminal sessions stay connected while the app is locked.</div>
+</sc-if>
+<sc-if value="{{ st.isConn }}" hint-placeholder-val="{{ false }}">
+<div style="display:flex;flex-direction:column;gap:8px"><div style="font-size:11px;font-weight:600;color:var(--text3);padding:0 4px">SSH Connection</div><div style="border-radius:10px;border:0.5px solid var(--cardBorder);background:var(--card);overflow:hidden"><div style="margin-bottom:-0.5px"><div style="display:flex;align-items:center;gap:16px;min-height:44px;padding:8px 14px;border-bottom:0.5px solid var(--sep)"><div style="flex:1;min-width:0"><div>Keep-alive interval</div><div style="font-size:11px;color:var(--text3);margin-top:2px;line-height:1.35;text-wrap:pretty">Sends a packet at this interval so idle sessions aren’t dropped by firewalls.</div></div><select value="{{ st.kaValue }}" onChange="{{ st.onKa }}"  style="height:24px;padding:0 6px;border-radius:6px;border:0.5px solid var(--cardBorder);background:var(--btn);color:var(--text);font:inherit;min-width:110px;flex-shrink:0"><sc-for list="{{ st.kaOpts }}" as="o" hint-placeholder-count="4"><option value="{{ o.v }}">{{ o.label }}</option></sc-for></select></div><div style="display:flex;align-items:center;gap:16px;min-height:44px;padding:8px 14px;border-bottom:0.5px solid var(--sep)"><div style="flex:1;min-width:0"><div>Connection timeout</div><div style="font-size:11px;color:var(--text3);margin-top:2px;line-height:1.35;text-wrap:pretty">How long to wait for a host before giving up.</div></div><select value="{{ st.toValue }}" onChange="{{ st.onTo }}"  style="height:24px;padding:0 6px;border-radius:6px;border:0.5px solid var(--cardBorder);background:var(--btn);color:var(--text);font:inherit;min-width:110px;flex-shrink:0"><sc-for list="{{ st.toOpts }}" as="o" hint-placeholder-count="4"><option value="{{ o.v }}">{{ o.label }}</option></sc-for></select></div></div></div></div>
+<div style="display:flex;flex-direction:column;gap:8px"><div style="font-size:11px;font-weight:600;color:var(--text3);padding:0 4px">Equivalent ssh_config</div><div style="padding:10px 14px;border-radius:10px;background:var(--term);font-family:'SF Mono',ui-monospace,'JetBrains Mono',monospace;font-size:12px;line-height:1.55;color:var(--termText);box-shadow:inset 0 0 0 0.5px var(--cardBorder)"><div style="white-space:pre;color:var(--tDim)">Host *</div><div style="white-space:pre">  ServerAliveInterval {{ st.kaCfg }}</div><div style="white-space:pre">  ServerAliveCountMax 3</div><div style="white-space:pre">  ConnectTimeout {{ st.toCfg }}</div></div></div>
+</sc-if>
+</div>
+</div>
+</sc-if>
+
+<sc-if value="{{ showPlaceholder }}" hint-placeholder-val="{{ false }}">
+<div style="flex:1;display:grid;place-items:center;padding:24px">
+<div style="display:flex;flex-direction:column;align-items:center;gap:10px;text-align:center;max-width:360px">
+<div style="width:64px;height:64px;border-radius:16px;background:var(--field);display:grid;place-items:center">
+<sc-if value="{{ ph.keychain }}"><svg width="32" height="32" viewBox="0 0 16 16" style="fill:none;stroke:var(--accent);stroke-width:1;stroke-linecap:round"><circle cx="5" cy="8" r="2.8"></circle><path d="M7.8 8H14M12.2 8v2.2M10.2 8v1.6"></path></svg></sc-if>
+<sc-if value="{{ ph.snippets }}"><svg width="32" height="32" viewBox="0 0 16 16" style="fill:none;stroke:var(--accent);stroke-width:1;stroke-linecap:round;stroke-linejoin:round"><rect x="2" y="2.5" width="12" height="11" rx="2"></rect><path d="M5 6.5l2 1.5-2 1.5M8.5 10.5H11"></path></svg></sc-if>
+<sc-if value="{{ ph.sftp }}"><svg width="32" height="32" viewBox="0 0 16 16" style="fill:none;stroke:var(--accent);stroke-width:1;stroke-linecap:round;stroke-linejoin:round"><path d="M2 4.5C2 3.7 2.6 3 3.5 3h3L8 4.5h4.5c.8 0 1.5.7 1.5 1.5v5.5c0 .8-.7 1.5-1.5 1.5h-9c-.9 0-1.5-.7-1.5-1.5z"></path><path d="M8 11V7.3M6.4 8.8L8 7.2l1.6 1.6"></path></svg></sc-if>
+<sc-if value="{{ ph.ports }}"><svg width="32" height="32" viewBox="0 0 16 16" style="fill:none;stroke:var(--accent);stroke-width:1;stroke-linecap:round;stroke-linejoin:round"><path d="M2.5 5.5h10M10 3l2.5 2.5L10 8M13.5 10.5h-10M6 8l-2.5 2.5L6 13"></path></svg></sc-if>
+<sc-if value="{{ ph.settings }}"><svg width="32" height="32" viewBox="0 0 16 16" style="fill:none;stroke:var(--accent);stroke-width:1;stroke-linecap:round"><circle cx="8" cy="8" r="3"></circle><path d="M8 1.8v2M8 12.2v2M1.8 8h2M12.2 8h2M3.6 3.6L5 5M11 11l1.4 1.4M3.6 12.4L5 11M11 5l1.4-1.4"></path></svg></sc-if>
+</div>
+<div style="font-size:17px;font-weight:600;margin-top:6px">{{ ph.title }}</div>
+<div style="color:var(--text2);line-height:1.45;text-wrap:pretty">{{ ph.desc }}</div>
+<div style="margin-top:6px;font-size:11px;font-weight:500;color:var(--text2);padding:3px 10px;border-radius:20px;border:0.5px solid var(--cardBorder)">Coming soon</div>
+</div>
+</div>
+</sc-if>
+
+<sc-if value="{{ showTerm }}" hint-placeholder-val="{{ false }}">
+<sc-if value="{{ term.isTerm }}" hint-placeholder-val="{{ true }}">
+<div style="flex:1;min-height:0;display:flex;flex-direction:{{ term.dir }};gap:1px;background:var(--sep)">
+<sc-for list="{{ term.panes }}" as="p" hint-placeholder-count="1">
+<div onMouseDown="{{ p.onFocus }}" style="flex:1 1 0;min-width:0;min-height:0;display:flex;flex-direction:column;background:{{ p.bg }}">
+<sc-if value="{{ p.multi }}" hint-placeholder-val="{{ false }}">
+<div style="height:24px;flex-shrink:0;box-sizing:border-box;display:flex;align-items:center;gap:6px;padding:0 4px 0 10px;font-size:11px;background:{{ p.headBg }};color:{{ p.headFg }};border-top:2px solid {{ p.bar }};border-bottom:0.5px solid var(--sep)">
+<span style="width:6px;height:6px;border-radius:50%;background:{{ p.dot }};flex-shrink:0"></span>
+<span style="font-family:'SF Mono',ui-monospace,'JetBrains Mono',monospace;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ p.title }}</span>
+<span style="flex:1"></span>
+<div onClick="{{ p.onClose }}" title="Close Pane" style="width:18px;height:18px;border-radius:4px;display:grid;place-items:center;color:var(--text3)" style-hover="background:var(--hover);color:var(--text)"><svg width="9" height="9" viewBox="0 0 16 16" style="fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round"><path d="M4 4l8 8M12 4l-8 8"></path></svg></div>
+</div>
+</sc-if>
+<div ref="{{ p.scrollRef }}" onClick="{{ p.focusInput }}" style="flex:1;min-height:0;overflow:auto;padding:10px 14px;font-family:'SF Mono',ui-monospace,'JetBrains Mono',monospace;font-size:{{ p.fs }}px;line-height:1.5;color:{{ p.fg }};user-select:text;cursor:text;opacity:{{ p.dim }}">
+<sc-for list="{{ p.lines }}" as="l" hint-placeholder-count="4">
+<div style="white-space:pre-wrap;word-break:break-all;min-height:1.5em"><sc-for list="{{ l.segs }}" as="sg" hint-placeholder-count="1"><span style="color:{{ sg.color }};font-weight:{{ sg.w }}">{{ sg.t }}</span></sc-for></div>
+</sc-for>
+<sc-if value="{{ p.ready }}" hint-placeholder-val="{{ false }}">
+<div style="display:flex;white-space:pre">
+<sc-for list="{{ p.prompt }}" as="sg" hint-placeholder-count="4"><span style="color:{{ sg.color }};font-weight:{{ sg.w }}">{{ sg.t }}</span></sc-for>
+<div style="flex:1;min-width:0;position:relative"><span style="white-space:pre-wrap;word-break:break-all;color:{{ p.fg }}">{{ p.input }}</span><span style="display:inline-block;width:{{ p.curW }};height:{{ p.curH }};background:{{ p.curBg }};vertical-align:{{ p.curVA }};opacity:{{ p.curOp }};animation:{{ p.curAnim }}"></span><input data-pane="1" ref="{{ p.inputRef }}" value="{{ p.input }}" onChange="{{ p.onInput }}" onKeyDown="{{ p.onKey }}" autocomplete="off" spellcheck="false" style="position:absolute;left:0;top:0;width:100%;height:100%;opacity:0;border:0;padding:0;margin:0;font:inherit;background:transparent;color:transparent;caret-color:transparent;outline:none"></div>
+</div>
+</sc-if>
+</div>
+</div>
+</sc-for>
+</div>
+</sc-if>
+<sc-if value="{{ term.isMon }}" hint-placeholder-val="{{ false }}">
+<div style="flex:1;min-height:0;overflow:auto;padding:20px 24px 24px;display:flex;flex-direction:column;gap:16px">
+<sc-if value="{{ mon.available }}" hint-placeholder-val="{{ true }}">
+<div style="display:flex;align-items:baseline;gap:8px">
+<span style="font-size:15px;font-weight:600">{{ mon.hostName }}</span>
+<span style="font-size:12px;color:var(--text2)">{{ mon.os }}</span>
+<span style="flex:1"></span>
+<span style="display:flex;align-items:center;gap:6px;font-size:11px;color:var(--text3)"><span style="width:6px;height:6px;border-radius:50%;background:var(--ok)"></span>Live · updates every 2 s</span>
+</div>
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:10px">
+<sc-for list="{{ mon.cards }}" as="c" hint-placeholder-count="4">
+<div style="display:flex;flex-direction:column;gap:6px;padding:12px 14px;border-radius:10px;background:var(--card);border:0.5px solid var(--cardBorder)">
+<span style="font-size:12px;color:var(--text2)">{{ c.label }}</span>
+<span style="font-size:22px;font-weight:600;letter-spacing:-0.3px;font-variant-numeric:tabular-nums">{{ c.value }}</span>
+<span style="font-size:11px;color:var(--text3);font-variant-numeric:tabular-nums;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ c.sub }}</span>
+<div style="height:4px;border-radius:2px;background:var(--field);overflow:hidden;opacity:{{ c.barOp }}"><div style="height:100%;width:{{ c.pct }}%;border-radius:2px;background:{{ c.bar }};transition:width 0.6s ease"></div></div>
+</div>
+</sc-for>
+</div>
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:10px">
+<sc-for list="{{ mon.charts }}" as="ch" hint-placeholder-count="2">
+<div style="display:flex;flex-direction:column;gap:10px;padding:12px 14px;border-radius:10px;background:var(--card);border:0.5px solid var(--cardBorder)">
+<div style="display:flex;align-items:baseline;gap:8px">
+<span style="width:8px;height:8px;border-radius:2px;background:{{ ch.color }};align-self:center"></span>
+<span style="font-weight:600">{{ ch.title }}</span>
+<span style="flex:1"></span>
+<span style="font-size:13px;font-weight:600;font-variant-numeric:tabular-nums">{{ ch.value }}</span>
+</div>
+<div style="display:flex;gap:8px;height:140px">
+<div style="display:flex;flex-direction:column;justify-content:space-between;font-size:10px;color:var(--text3);font-variant-numeric:tabular-nums;text-align:right;width:28px;margin:-5px 0"><span>100%</span><span>50%</span><span>0%</span></div>
+<svg viewBox="0 0 600 150" preserveAspectRatio="none" style="flex:1;min-width:0;height:100%;display:block;overflow:visible">
+<path d="M0 0H600M0 75H600M0 150H600" style="fill:none;stroke:var(--sep);stroke-width:1;vector-effect:non-scaling-stroke"></path>
+<path d="M0 37.5H600M0 112.5H600" style="fill:none;stroke:var(--sep);stroke-width:1;stroke-dasharray:3 4;vector-effect:non-scaling-stroke"></path>
+<path d="{{ ch.area }}" style="fill:{{ ch.fill }};stroke:none"></path>
+<path d="{{ ch.line }}" style="fill:none;stroke:{{ ch.color }};stroke-width:1.6;stroke-linejoin:round;vector-effect:non-scaling-stroke"></path>
+</svg>
+</div>
+<div style="display:flex;justify-content:space-between;font-size:10px;color:var(--text3);padding-left:36px"><span>2 min ago</span><span>{{ ch.sub }}</span><span>now</span></div>
+</div>
+</sc-for>
+</div>
+<div style="display:flex;flex-direction:column;border-radius:10px;border:0.5px solid var(--cardBorder);overflow:hidden">
+<div style="display:flex;align-items:center;height:32px;padding:0 14px;background:var(--card);border-bottom:0.5px solid var(--sep)"><span style="font-weight:600">Top Processes</span><span style="flex:1"></span><span style="font-size:11px;color:var(--text3)">Sorted by CPU</span></div>
+<div style="display:grid;grid-template-columns:64px 80px 64px 64px minmax(0,1fr);gap:12px;align-items:center;height:24px;padding:0 14px;font-size:11px;font-weight:600;color:var(--text3);border-bottom:0.5px solid var(--sep)">
+<span style="text-align:right">PID</span><span>User</span><span style="text-align:right">CPU %</span><span style="text-align:right">MEM %</span><span>Command</span></div>
+<sc-for list="{{ mon.procs }}" as="pr" hint-placeholder-count="8">
+<div style="display:grid;grid-template-columns:64px 80px 64px 64px minmax(0,1fr);gap:12px;align-items:center;height:26px;padding:0 14px;font-size:12px;background:{{ pr.bg }}">
+<span style="text-align:right;font-family:'SF Mono',ui-monospace,'JetBrains Mono',monospace;font-size:11.5px;color:var(--text2)">{{ pr.pid }}</span>
+<span style="color:var(--text2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ pr.user }}</span>
+<span style="text-align:right;font-variant-numeric:tabular-nums;font-weight:{{ pr.cpuW }};color:{{ pr.cpuColor }}">{{ pr.cpu }}</span>
+<span style="text-align:right;font-variant-numeric:tabular-nums">{{ pr.mem }}</span>
+<span style="font-family:'SF Mono',ui-monospace,'JetBrains Mono',monospace;font-size:11.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ pr.cmd }}</span>
+</div>
+</sc-for>
+</div>
+</sc-if>
+<sc-if value="{{ mon.unavailable }}" hint-placeholder-val="{{ false }}">
+<div style="flex:1;display:grid;place-items:center;text-align:center;color:var(--text2)"><div><div style="font-size:15px;font-weight:600;color:var(--text)">Monitor Unavailable</div><div style="margin-top:4px">{{ mon.msg }}</div></div></div>
+</sc-if>
+</div>
+</sc-if>
+<div style="height:26px;flex-shrink:0;display:flex;align-items:center;gap:14px;padding:0 12px;font-size:11px;color:var(--text2);background:var(--toolbar);border-top:0.5px solid var(--sep);white-space:nowrap;overflow:hidden">
+<span style="display:flex;align-items:center;gap:6px"><span style="width:7px;height:7px;border-radius:50%;background:{{ term.dot }}"></span>{{ term.statusLabel }}</span>
+<span style="font-family:'SF Mono',ui-monospace,'JetBrains Mono',monospace;color:var(--text)">{{ term.addr }}</span>
+<span title="Latency" style="display:flex;align-items:center;gap:5px"><svg width="12" height="12" viewBox="0 0 16 16" style="fill:none;stroke:currentColor;stroke-width:1.6;stroke-linecap:round"><path d="M3 13v-2M6.3 13V9.5M9.7 13V6.5M13 13V3.5"></path></svg><span style="font-family:'SF Mono',ui-monospace,'JetBrains Mono',monospace;color:{{ term.latColor }}">{{ term.latency }}</span></span>
+<span title="Connected for" style="display:flex;align-items:center;gap:5px"><svg width="12" height="12" viewBox="0 0 16 16" style="fill:none;stroke:currentColor;stroke-width:1.4;stroke-linecap:round"><circle cx="8" cy="8" r="5.8"></circle><path d="M8 4.8V8l2.2 1.4"></path></svg><span style="font-family:'SF Mono',ui-monospace,'JetBrains Mono',monospace">{{ term.elapsed }}</span></span>
+<span title="Keep-alive interval" style="color:var(--text3)">{{ term.ka }}</span>
+<span style="flex:1"></span>
+<sc-if value="{{ term.canReconnect }}" hint-placeholder-val="{{ false }}"><div onClick="{{ term.reconnect }}" style="padding:2px 10px;border-radius:5px;background:var(--btn);color:var(--text);box-shadow:0 0 0 0.5px var(--cardBorder)">Reconnect</div></sc-if>
+<span style="color:var(--text3)">{{ term.os }}</span>
+<span style="padding:0 6px;border-radius:4px;border:0.5px solid var(--cardBorder);color:var(--text2)">UTF-8</span>
+</div>
+</sc-if>
+
+</main>
+
+<sc-if value="{{ hasPd }}" hint-placeholder-val="{{ false }}">
+<div style="position:absolute;inset:0;z-index:7;background:rgba(0,0,0,0.18);display:flex;justify-content:center;align-items:flex-start;padding-top:90px">
+<div style="width:380px;max-width:calc(100% - 40px);box-sizing:border-box;background:var(--sheet);border-radius:12px;box-shadow:var(--shadow),var(--inner);padding:20px 20px 16px;display:flex;flex-direction:column;gap:16px">
+<div><div style="font-size:13px;font-weight:600">{{ pd.title }}</div><div style="font-size:12px;color:var(--text2);margin-top:3px;line-height:1.4;text-wrap:pretty">{{ pd.desc }}</div></div>
+<div style="display:grid;grid-template-columns:100px minmax(0,1fr);gap:10px 12px;align-items:start">
+<label style="text-align:right;color:var(--text2);line-height:24px">{{ pd.l1 }}</label><input type="password" inputmode="numeric" maxlength="4" value="{{ pd.pin }}" onChange="{{ pd.onPin }}" onKeyDown="{{ pd.onEnter }}" placeholder="••••" style="width:90px;height:24px;padding:0 8px;border-radius:6px;border:0.5px solid {{ pd.bd }};box-shadow:{{ pd.ring }};background:var(--field);color:var(--text);font:inherit;letter-spacing:4px;outline-color:var(--accent)">
+<sc-if value="{{ pd.showConfirm }}" hint-placeholder-val="{{ true }}"><label style="text-align:right;color:var(--text2);line-height:24px">Confirm</label><input type="password" inputmode="numeric" maxlength="4" value="{{ pd.pin2 }}" onChange="{{ pd.onPin2 }}" onKeyDown="{{ pd.onEnter }}" placeholder="••••" style="width:90px;height:24px;padding:0 8px;border-radius:6px;border:0.5px solid {{ pd.bd }};box-shadow:{{ pd.ring }};background:var(--field);color:var(--text);font:inherit;letter-spacing:4px;outline-color:var(--accent)"></sc-if>
+</div>
+<sc-if value="{{ pd.hasErr }}" hint-placeholder-val="{{ false }}"><div style="font-size:11px;color:var(--bad);margin-top:-8px;text-align:center">{{ pd.err }}</div></sc-if>
+<div style="display:flex;justify-content:flex-end;gap:8px;margin-top:4px">
+<div onClick="{{ pd.cancel }}" style="min-width:64px;text-align:center;padding:3px 12px;border-radius:6px;background:var(--btn);box-shadow:0 0 0 0.5px var(--cardBorder),0 0.5px 1px rgba(0,0,0,0.15)">Cancel</div>
+<div onClick="{{ pd.confirm }}" style="min-width:64px;text-align:center;padding:3px 12px;border-radius:6px;background:{{ pd.okBg }};color:#fff">{{ pd.okLabel }}</div>
+</div></div></div>
+</sc-if>
+<sc-if value="{{ locked }}" hint-placeholder-val="{{ false }}">
+<div onClick="{{ lk.focus }}" style="position:absolute;inset:0;z-index:20;background:var(--sidebar);backdrop-filter:blur(40px) saturate(180%);-webkit-backdrop-filter:blur(40px) saturate(180%);display:grid;place-items:center">
+<div style="display:flex;flex-direction:column;align-items:center;gap:14px">
+<div style="width:64px;height:64px;border-radius:16px;background:var(--field);display:grid;place-items:center"><svg width="30" height="30" viewBox="0 0 16 16" style="fill:none;stroke:var(--accent);stroke-width:1.1;stroke-linecap:round;stroke-linejoin:round"><rect x="3" y="7" width="10" height="7" rx="1.8"></rect><path d="M5.2 7V5.2a2.8 2.8 0 0 1 5.6 0V7"></path></svg></div>
+<div style="font-size:17px;font-weight:600">Shellbay is Locked</div>
+<div style="display:flex;gap:12px;height:14px;align-items:center"><sc-for list="{{ lk.dots }}" as="d" hint-placeholder-count="4"><span style="width:11px;height:11px;border-radius:50%;box-sizing:border-box;background:{{ d.bg }};border:1.5px solid {{ d.bd }}"></span></sc-for></div>
+<div style="font-size:12px;color:{{ lk.msgColor }};height:16px">{{ lk.msg }}</div>
+<input ref="{{ lockRef }}" type="password" inputmode="numeric" maxlength="4" value="{{ lk.value }}" onChange="{{ lk.onInput }}" autocomplete="off" style="position:absolute;opacity:0;width:1px;height:1px;border:0;padding:0">
+</div></div>
+</sc-if>
+<sc-if value="{{ hasSnd }}" hint-placeholder-val="{{ false }}">
+<div style="position:absolute;inset:0;z-index:5;background:rgba(0,0,0,0.18);display:flex;justify-content:center;align-items:flex-start;padding-top:70px">
+<div style="width:{{ snd.width }}px;max-width:calc(100% - 40px);max-height:calc(100% - 100px);overflow:auto;box-sizing:border-box;background:var(--sheet);border-radius:12px;box-shadow:var(--shadow),var(--inner);padding:20px 20px 16px;display:flex;flex-direction:column;gap:16px">
+<div>
+<div style="font-size:13px;font-weight:600">{{ snd.title }}</div>
+<div style="font-size:12px;color:var(--text2);margin-top:3px;line-height:1.4;text-wrap:pretty">{{ snd.desc }}</div>
+</div>
+<sc-if value="{{ snd.isEdit }}" hint-placeholder-val="{{ false }}">
+<div style="display:grid;grid-template-columns:80px minmax(0,1fr);align-items:start;gap:10px 12px">
+<label style="text-align:right;color:var(--text2);line-height:24px">Name</label>
+<div style="display:flex;flex-direction:column;gap:3px">
+<input ref="{{ kdRef }}" value="{{ snd.name }}" onChange="{{ snd.onName }}" placeholder="Restart nginx" style="height:24px;padding:0 8px;border-radius:6px;border:0.5px solid {{ snd.bd1 }};box-shadow:{{ snd.ring1 }};background:var(--field);color:var(--text);font:inherit;outline-color:var(--accent)">
+<sc-if value="{{ snd.hasErr1 }}" hint-placeholder-val="{{ false }}"><span style="font-size:11px;color:var(--bad)">{{ snd.err1 }}</span></sc-if>
+</div>
+<label style="text-align:right;color:var(--text2);line-height:24px">Command</label>
+<div style="display:flex;flex-direction:column;gap:3px">
+<textarea value="{{ snd.cmd }}" onChange="{{ snd.onCmd }}" rows="3" placeholder="sudo systemctl restart nginx" style="padding:6px 8px;border-radius:6px;border:0.5px solid {{ snd.bd2 }};box-shadow:{{ snd.ring2 }};background:var(--field);color:var(--text);font-family:'SF Mono',ui-monospace,'JetBrains Mono',monospace;font-size:12px;resize:none;outline-color:var(--accent)"></textarea>
+<sc-if value="{{ snd.hasErr2 }}" hint-placeholder-val="{{ false }}"><span style="font-size:11px;color:var(--bad)">{{ snd.err2 }}</span></sc-if>
+</div>
+<label style="text-align:right;color:var(--text2);line-height:24px">Tags</label>
+<input value="{{ snd.tags }}" onChange="{{ snd.onTags }}" placeholder="nginx, web" style="height:24px;padding:0 8px;border-radius:6px;border:0.5px solid var(--cardBorder);background:var(--field);color:var(--text);font:inherit;outline-color:var(--accent)">
+</div>
+</sc-if>
+<sc-if value="{{ snd.isRun }}" hint-placeholder-val="{{ false }}">
+<div style="display:flex;flex-direction:column;gap:10px">
+<div style="font-family:'SF Mono',ui-monospace,'JetBrains Mono',monospace;font-size:12px;padding:7px 10px;border-radius:6px;background:var(--term);color:var(--termText);white-space:pre-wrap;word-break:break-all;box-shadow:inset 0 0 0 0.5px var(--cardBorder)"><span style="color:var(--tDim)">$ </span>{{ snd.cmd }}</div>
+<div style="display:flex;flex-direction:column;border-radius:8px;border:0.5px solid var(--cardBorder);overflow:auto;max-height:230px">
+<sc-for list="{{ snd.hosts }}" as="h" hint-placeholder-count="7">
+<div onClick="{{ h.onClick }}" style="display:flex;align-items:center;gap:8px;height:28px;flex-shrink:0;padding:0 10px;background:{{ h.bg }};color:{{ h.fg }};opacity:{{ h.op }}">
+<span style="width:7px;height:7px;border-radius:50%;background:{{ h.dot }};flex-shrink:0"></span>
+<span style="flex:1;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ h.name }}</span>
+<span style="font-family:'SF Mono',ui-monospace,'JetBrains Mono',monospace;font-size:11px;opacity:0.7">{{ h.ip }}</span>
+<span style="font-size:11px;opacity:0.7;width:62px;text-align:right">{{ h.note }}</span>
+</div>
+</sc-for>
+</div>
+</div>
+</sc-if>
+<div style="display:flex;justify-content:flex-end;gap:8px;margin-top:4px">
+<div onClick="{{ snd.cancel }}" style="min-width:64px;text-align:center;padding:3px 12px;border-radius:6px;background:var(--btn);box-shadow:0 0 0 0.5px var(--cardBorder),0 0.5px 1px rgba(0,0,0,0.15)">Cancel</div>
+<div onClick="{{ snd.confirm }}" style="min-width:64px;text-align:center;padding:3px 12px;border-radius:6px;background:{{ snd.okBg }};color:#fff;opacity:{{ snd.okOp }}">{{ snd.okLabel }}</div>
+</div>
+</div>
+</div>
+</sc-if>
+<sc-if value="{{ hasKd }}" hint-placeholder-val="{{ false }}">
+<div style="position:absolute;inset:0;z-index:5;background:rgba(0,0,0,0.18);display:flex;justify-content:center;align-items:flex-start;padding-top:80px">
+<div style="width:{{ kd.width }}px;max-width:calc(100% - 40px);box-sizing:border-box;background:var(--sheet);border-radius:12px;box-shadow:var(--shadow),var(--inner);padding:20px 20px 16px;display:flex;flex-direction:column;gap:16px">
+<div>
+<div style="font-size:13px;font-weight:600">{{ kd.title }}</div>
+<div style="font-size:12px;color:var(--text2);margin-top:3px;line-height:1.4;text-wrap:pretty">{{ kd.desc }}</div>
+</div>
+<sc-if value="{{ kd.isGen }}" hint-placeholder-val="{{ false }}">
+<div style="display:grid;grid-template-columns:80px minmax(0,1fr);align-items:start;gap:10px 12px">
+<label style="text-align:right;color:var(--text2);line-height:24px">Name</label>
+<div style="display:flex;flex-direction:column;gap:3px">
+<input ref="{{ kdRef }}" value="{{ kd.name }}" onChange="{{ kd.onName }}" onKeyDown="{{ kd.onEnter }}" placeholder="id_ed25519_work" style="height:24px;padding:0 8px;border-radius:6px;border:0.5px solid {{ kd.bd }};box-shadow:{{ kd.ring }};background:var(--field);color:var(--text);font:inherit;outline-color:var(--accent)">
+<sc-if value="{{ kd.hasErr }}" hint-placeholder-val="{{ false }}"><span style="font-size:11px;color:var(--bad)">{{ kd.err }}</span></sc-if>
+</div>
+<label style="text-align:right;color:var(--text2);line-height:24px">Type</label>
+<div style="display:flex;flex-direction:column;gap:6px">
+<div style="display:flex;width:fit-content;padding:2px;border-radius:7px;background:var(--field)">
+<sc-for list="{{ kd.types }}" as="ty" hint-placeholder-count="3"><div onClick="{{ ty.onClick }}" style="padding:2px 12px;border-radius:5px;background:{{ ty.bg }};box-shadow:{{ ty.sh }};color:var(--text)">{{ ty.label }}</div></sc-for>
+</div>
+<span style="font-size:11px;color:var(--text3)">{{ kd.typeHint }}</span>
+</div>
+</div>
+</sc-if>
+<sc-if value="{{ kd.isImp }}" hint-placeholder-val="{{ false }}">
+<div style="display:grid;grid-template-columns:80px minmax(0,1fr);align-items:start;gap:10px 12px">
+<label style="text-align:right;color:var(--text2);line-height:24px">Name</label>
+<div style="display:flex;flex-direction:column;gap:3px">
+<input ref="{{ kdRef }}" value="{{ kd.name }}" onChange="{{ kd.onName }}" placeholder="id_ed25519_work" style="height:24px;padding:0 8px;border-radius:6px;border:0.5px solid {{ kd.bd }};box-shadow:{{ kd.ring }};background:var(--field);color:var(--text);font:inherit;outline-color:var(--accent)">
+<sc-if value="{{ kd.hasErr }}" hint-placeholder-val="{{ false }}"><span style="font-size:11px;color:var(--bad)">{{ kd.err }}</span></sc-if>
+</div>
+<label style="text-align:right;color:var(--text2);line-height:24px">Key</label>
+<div style="display:flex;flex-direction:column;gap:3px">
+<textarea value="{{ kd.text }}" onChange="{{ kd.onText }}" placeholder="-----BEGIN OPENSSH PRIVATE KEY-----&#10;…" rows="5" style="padding:6px 8px;border-radius:6px;border:0.5px solid {{ kd.bd2 }};box-shadow:{{ kd.ring2 }};background:var(--field);color:var(--text);font-family:'SF Mono',ui-monospace,'JetBrains Mono',monospace;font-size:11px;resize:none;outline-color:var(--accent)"></textarea>
+<sc-if value="{{ kd.hasErr2 }}" hint-placeholder-val="{{ false }}"><span style="font-size:11px;color:var(--bad)">{{ kd.err2 }}</span></sc-if>
+</div>
+</div>
+</sc-if>
+<div style="display:flex;justify-content:flex-end;gap:8px;margin-top:4px">
+<div onClick="{{ kd.cancel }}" style="min-width:64px;text-align:center;padding:3px 12px;border-radius:6px;background:var(--btn);box-shadow:0 0 0 0.5px var(--cardBorder),0 0.5px 1px rgba(0,0,0,0.15)">Cancel</div>
+<div onClick="{{ kd.confirm }}" style="min-width:64px;text-align:center;padding:3px 12px;border-radius:6px;background:{{ kd.okBg }};color:#fff">{{ kd.okLabel }}</div>
+</div>
+</div>
+</div>
+</sc-if>
+<sc-if value="{{ hasToast }}" hint-placeholder-val="{{ false }}">
+<div style="position:absolute;left:0;right:0;bottom:44px;display:flex;justify-content:center;pointer-events:none;z-index:6">
+<div style="display:flex;align-items:center;gap:8px;padding:8px 14px;border-radius:10px;background:var(--menu);backdrop-filter:blur(30px) saturate(180%);-webkit-backdrop-filter:blur(30px) saturate(180%);box-shadow:0 8px 24px rgba(0,0,0,0.3),0 0 0 0.5px var(--menuBorder),var(--inner);font-size:13px">
+<svg width="15" height="15" viewBox="0 0 16 16" style="fill:none;stroke:var(--ok);stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round"><circle cx="8" cy="8" r="6"></circle><path d="M5.5 8.2l1.8 1.8 3.2-3.6"></path></svg>{{ toast }}</div>
+</div>
+</sc-if>
+<sc-if value="{{ hasSheet }}" hint-placeholder-val="{{ false }}">
+<div style="position:absolute;inset:0;background:rgba(0,0,0,0.18);display:flex;justify-content:center;align-items:flex-start;padding-top:52px">
+<div onKeyDown="{{ sheetKey }}" style="width:500px;max-height:calc(100% - 72px);overflow:auto;box-sizing:border-box;max-width:calc(100% - 40px);background:var(--sheet);border-radius:12px;box-shadow:var(--shadow),var(--inner);padding:20px 20px 16px;display:flex;flex-direction:column;gap:16px">
+<div>
+<div style="font-size:13px;font-weight:600">{{ sheetTitle }}</div>
+<div style="font-size:12px;color:var(--text2);margin-top:3px">{{ sheetDesc }}</div>
+</div>
+<div style="display:grid;grid-template-columns:110px minmax(0,1fr);align-items:start;gap:10px 12px">
+<label style="text-align:right;color:var(--text2);line-height:24px">Label <span style="color:var(--bad)">*</span></label>
+<div style="display:flex;flex-direction:column;gap:3px">
+<input ref="{{ nameRef }}" value="{{ form.name }}" onChange="{{ f.name }}" placeholder="web-prod-03" style="height:24px;padding:0 8px;border-radius:6px;border:0.5px solid {{ bd.name }};box-shadow:{{ ring.name }};background:var(--field);color:var(--text);font:inherit;outline-color:var(--accent)">
+<sc-if value="{{ err.name }}" hint-placeholder-val="{{ false }}"><span style="font-size:11px;color:var(--bad)">{{ err.name }}</span></sc-if>
+</div>
+<label style="text-align:right;color:var(--text2);line-height:24px">Hostname / IP <span style="color:var(--bad)">*</span></label>
+<div style="display:grid;grid-template-columns:minmax(0,1fr) auto 68px;gap:3px 8px;align-items:center">
+<input value="{{ form.ip }}" onChange="{{ f.ip }}" placeholder="10.0.1.13 or host.example.com" style="height:24px;padding:0 8px;border-radius:6px;border:0.5px solid {{ bd.ip }};box-shadow:{{ ring.ip }};background:var(--field);color:var(--text);font-family:'SF Mono',ui-monospace,'JetBrains Mono',monospace;font-size:12px;outline-color:var(--accent);min-width:0">
+<span style="color:var(--text2)">Port</span>
+<input value="{{ form.port }}" onChange="{{ f.port }}" placeholder="22" style="height:24px;padding:0 8px;border-radius:6px;border:0.5px solid {{ bd.port }};box-shadow:{{ ring.port }};background:var(--field);color:var(--text);font-family:'SF Mono',ui-monospace,'JetBrains Mono',monospace;font-size:12px;outline-color:var(--accent);min-width:0">
+<sc-if value="{{ err.hostLine }}" hint-placeholder-val="{{ false }}"><span style="grid-column:1 / -1;font-size:11px;color:var(--bad)">{{ err.hostLine }}</span></sc-if>
+</div>
+<label style="text-align:right;color:var(--text2);line-height:24px">Username <span style="color:var(--bad)">*</span></label>
+<div style="display:flex;flex-direction:column;gap:3px">
+<input value="{{ form.user }}" onChange="{{ f.user }}" placeholder="ubuntu" style="height:24px;padding:0 8px;border-radius:6px;border:0.5px solid {{ bd.user }};box-shadow:{{ ring.user }};background:var(--field);color:var(--text);font:inherit;outline-color:var(--accent)">
+<sc-if value="{{ err.user }}" hint-placeholder-val="{{ false }}"><span style="font-size:11px;color:var(--bad)">{{ err.user }}</span></sc-if>
+</div>
+<label style="text-align:right;color:var(--text2);line-height:24px">Authentication</label>
+<div style="display:flex;flex-direction:column;gap:8px">
+<div style="display:flex;width:fit-content;padding:2px;border-radius:7px;background:var(--field)">
+<div onClick="{{ setAuthKey }}" style="padding:2px 14px;border-radius:5px;background:{{ authBtn.key }};box-shadow:{{ authBtn.keyShadow }};color:var(--text)">SSH Key</div>
+<div onClick="{{ setAuthPw }}" style="padding:2px 14px;border-radius:5px;background:{{ authBtn.pw }};box-shadow:{{ authBtn.pwShadow }};color:var(--text)">Password</div>
+</div>
+<sc-if value="{{ isKey }}" hint-placeholder-val="{{ true }}">
+<div style="display:flex;flex-direction:column;gap:5px">
+<select value="{{ form.key }}" onChange="{{ f.key }}" style="height:24px;padding:0 6px;border-radius:6px;border:0.5px solid var(--cardBorder);background:var(--btn);color:var(--text);font:inherit;max-width:280px">
+<sc-for list="{{ keys }}" as="k" hint-placeholder-count="3"><option value="{{ k.id }}">{{ k.label }}</option></sc-for>
+</select>
+<span style="font-size:11px;color:var(--text3)">{{ keyHint }}</span>
+</div>
+</sc-if>
+<sc-if value="{{ isPw }}" hint-placeholder-val="{{ false }}">
+<div style="display:flex;flex-direction:column;gap:3px">
+<input type="password" value="{{ form.password }}" onChange="{{ f.password }}" placeholder="Password" style="height:24px;padding:0 8px;border-radius:6px;border:0.5px solid {{ bd.password }};box-shadow:{{ ring.password }};background:var(--field);color:var(--text);font:inherit;outline-color:var(--accent);max-width:280px">
+<sc-if value="{{ err.password }}" hint-placeholder-val="{{ false }}"><span style="font-size:11px;color:var(--bad)">{{ err.password }}</span></sc-if>
+<sc-if value="{{ noPwErr }}" hint-placeholder-val="{{ true }}"><span style="font-size:11px;color:var(--text3)">Stored securely in your macOS Keychain.</span></sc-if>
+</div>
+</sc-if>
+</div>
+<label style="text-align:right;color:var(--text2);line-height:24px">Group</label>
+<select value="{{ form.group }}" onChange="{{ f.group }}" style="height:24px;padding:0 6px;border-radius:6px;border:0.5px solid var(--cardBorder);background:var(--btn);color:var(--text);font:inherit;width:160px">
+<option value="Production">Production</option>
+<option value="Staging">Staging</option>
+<option value="Personal">Personal</option>
+</select>
+<label style="text-align:right;color:var(--text2);line-height:24px">Tags</label>
+<div style="display:flex;flex-direction:column;gap:6px">
+<input value="{{ form.tags }}" onChange="{{ f.tags }}" placeholder="nginx, docker" style="height:24px;padding:0 8px;border-radius:6px;border:0.5px solid var(--cardBorder);background:var(--field);color:var(--text);font:inherit;outline-color:var(--accent)">
+<sc-if value="{{ hasTagChips }}" hint-placeholder-val="{{ false }}">
+<div style="display:flex;flex-wrap:wrap;gap:4px">
+<sc-for list="{{ tagChips }}" as="tg" hint-placeholder-count="2"><span style="font-size:11px;padding:1px 7px;border-radius:10px;background:var(--field);color:var(--text2)">{{ tg }}</span></sc-for>
+</div>
+</sc-if>
+</div>
+<label style="text-align:right;color:var(--text2);line-height:24px">Color</label>
+<div style="display:flex;gap:8px;align-items:center;height:24px">
+<sc-for list="{{ swatches }}" as="sw" hint-placeholder-count="7">
+<div onClick="{{ sw.onClick }}" title="{{ sw.name }}" style="width:16px;height:16px;border-radius:50%;background:{{ sw.c }};box-shadow:{{ sw.ring }}"></div>
+</sc-for>
+</div>
+</div>
+<div style="display:flex;justify-content:flex-end;gap:8px;margin-top:4px">
+<div onClick="{{ closeSheet }}" style="min-width:64px;text-align:center;padding:3px 12px;border-radius:6px;background:var(--btn);box-shadow:0 0 0 0.5px var(--cardBorder),0 0.5px 1px rgba(0,0,0,0.15)">Cancel</div>
+<div onClick="{{ submitSheet }}" style="min-width:64px;text-align:center;padding:3px 12px;border-radius:6px;background:var(--accent);color:#fff">{{ submitLabel }}</div>
+</div>
+</div>
+</div>
+</sc-if>
+</div>
+
+<sc-if value="{{ hasPicker }}" hint-placeholder-val="{{ false }}">
+<div ref="{{ pickerRef }}" style="position:fixed;left:{{ pickerX }}px;top:{{ pickerY }}px;width:280px;max-height:360px;overflow:auto;padding:5px;box-sizing:border-box;border-radius:8px;background:var(--menu);backdrop-filter:blur(30px) saturate(180%);-webkit-backdrop-filter:blur(30px) saturate(180%);box-shadow:0 10px 32px rgba(0,0,0,0.35),0 0 0 0.5px var(--menuBorder),var(--inner);font-size:13px;z-index:10">
+<div style="font-size:11px;font-weight:600;color:var(--text3);padding:3px 9px 5px">Open in New Tab</div>
+<sc-for list="{{ pickHosts }}" as="hp" hint-placeholder-count="7">
+<div onClick="{{ hp.onClick }}" style="display:flex;align-items:center;gap:8px;height:24px;padding:0 9px;border-radius:4px" style-hover="background:var(--accent);color:#fff">
+<span style="width:7px;height:7px;border-radius:50%;background:{{ hp.dot }};flex-shrink:0"></span>
+<span style="flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ hp.name }}</span>
+<span style="font-family:'SF Mono',ui-monospace,'JetBrains Mono',monospace;font-size:11px;opacity:0.6">{{ hp.ip }}</span>
+</div>
+</sc-for>
+</div>
+</sc-if>
+<sc-if value="{{ hasMenu }}" hint-placeholder-val="{{ false }}">
+<div ref="{{ menuRef }}" onContextMenu="{{ prevent }}" style="position:fixed;left:{{ menuX }}px;top:{{ menuY }}px;width:200px;padding:5px;box-sizing:border-box;border-radius:8px;background:var(--menu);backdrop-filter:blur(30px) saturate(180%);-webkit-backdrop-filter:blur(30px) saturate(180%);box-shadow:0 10px 32px rgba(0,0,0,0.35),0 0 0 0.5px var(--menuBorder),var(--inner);font-size:13px;z-index:10">
+<div onClick="{{ act.connect }}" style="display:flex;justify-content:space-between;height:22px;align-items:center;padding:0 9px;border-radius:4px" style-hover="background:var(--accent);color:#fff"><span>Connect</span><span style="opacity:0.55">⌘O</span></div>
+<div onClick="{{ act.edit }}" style="display:flex;justify-content:space-between;height:22px;align-items:center;padding:0 9px;border-radius:4px" style-hover="background:var(--accent);color:#fff"><span>Edit…</span><span style="opacity:0.55">⌘E</span></div>
+<div onClick="{{ act.duplicate }}" style="display:flex;justify-content:space-between;height:22px;align-items:center;padding:0 9px;border-radius:4px" style-hover="background:var(--accent);color:#fff"><span>Duplicate</span><span style="opacity:0.55">⌘D</span></div>
+<div style="height:0.5px;background:var(--menuBorder);margin:5px 9px"></div>
+<div onClick="{{ act.del }}" style="display:flex;justify-content:space-between;height:22px;align-items:center;padding:0 9px;border-radius:4px" style-hover="background:var(--accent);color:#fff"><span>Delete</span><span style="opacity:0.55">⌘⌫</span></div>
+</div>
+</sc-if>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;theme&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;dark&quot;,&quot;light&quot;],&quot;default&quot;:&quot;dark&quot;,&quot;tsType&quot;:&quot;'dark'|'light'&quot;},&quot;defaultView&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;grid&quot;,&quot;list&quot;],&quot;default&quot;:&quot;grid&quot;,&quot;tsType&quot;:&quot;'grid'|'list'&quot;}}">
+const GROUPS = ['Production', 'Staging', 'Personal'];
+const SEED = [
+  { id: 'h1', name: 'web-prod-01', ip: '10.0.1.11', user: 'ubuntu', port: 22, group: 'Production', status: 'online', os: 'Ubuntu 24.04 LTS' },
+  { id: 'h2', name: 'web-prod-02', ip: '10.0.1.12', user: 'ubuntu', port: 22, group: 'Production', status: 'online', os: 'Ubuntu 24.04 LTS' },
+  { id: 'h3', name: 'db-prod', ip: '10.0.2.20', user: 'deploy', port: 22, group: 'Production', status: 'online', os: 'Ubuntu 22.04 LTS' },
+  { id: 'h4', name: 'api-staging', ip: '172.16.4.30', user: 'deploy', port: 22, group: 'Staging', status: 'connecting', os: 'Ubuntu 24.04 LTS' },
+  { id: 'h5', name: 'db-staging', ip: '172.16.4.40', user: 'deploy', port: 2222, group: 'Staging', status: 'offline', os: 'Ubuntu 22.04 LTS' },
+  { id: 'h6', name: 'vps-hcm', ip: '103.97.125.14', user: 'root', port: 22, group: 'Personal', status: 'online', os: 'Ubuntu 24.04 LTS' },
+  { id: 'h7', name: 'homelab-pi', ip: '192.168.1.50', user: 'pi', port: 22, group: 'Personal', status: 'online', os: 'Ubuntu 24.04 arm64' },
+];
+const KEYS = [
+  { id: 'id_ed25519', name: 'id_ed25519', type: 'ED25519', fp: 'SHA256:q3Vb…8kZt', created: '14 Mar 2026' },
+  { id: 'deploy_2026', name: 'deploy_2026', type: 'ED25519', fp: 'SHA256:Lx9P…2mWc', created: '09 Jan 2026' },
+  { id: 'id_rsa_legacy', name: 'id_rsa_legacy', type: 'RSA 4096', fp: 'SHA256:7hTe…Qa1d', created: '22 Aug 2023' },
+  { id: 'homelab', name: 'homelab', type: 'ECDSA P-256', fp: 'SHA256:Pn4s…ve0R', created: '03 Jun 2025' },
+];
+const KEY_TYPES = [
+  { label: 'ED25519', hint: 'Recommended. Fast, compact and secure.' },
+  { label: 'RSA 4096', hint: 'Widest compatibility with older servers.' },
+  { label: 'ECDSA P-256', hint: 'Elliptic curve, supported by most modern servers.' },
+];
+const B64 = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+const rand = n => Array.from({ length: n }, () => B64[Math.floor(Math.random() * 62)]).join('');
+const pubOf = (k) => {
+  const pre = k.type === 'RSA 4096' ? 'ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQ' : k.type === 'ECDSA P-256' ? 'ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTY' : 'ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAI';
+  return `${pre}${k.seed || rand(40)} ${k.name}@shellbay`;
+};
+const fmtD = d => `${pad2(d.getDate())} ${MON[d.getMonth()]} ${d.getFullYear()}`;
+const COLORS = [
+  { name: 'Blue', c: '#0a84ff' }, { name: 'Green', c: '#30d158' }, { name: 'Yellow', c: '#ffd60a' },
+  { name: 'Orange', c: '#ff9f0a' }, { name: 'Red', c: '#ff453a' }, { name: 'Purple', c: '#bf5af2' }, { name: 'Graphite', c: '#8e8e93' },
+];
+const SEED_META = {
+  h1: ['#ff453a', ['nginx', 'docker']], h2: ['#ff453a', ['nginx', 'docker']], h3: ['#ff9f0a', ['postgres']],
+  h4: ['#ffd60a', ['node']], h5: ['#ffd60a', ['postgres']], h6: ['#0a84ff', ['vpn']], h7: ['#30d158', ['arm', 'home']],
+};
+SEED.forEach(h => { h.color = SEED_META[h.id][0]; h.tags = SEED_META[h.id][1]; h.auth = 'key'; h.key = h.id === 'h7' ? 'homelab' : (h.user === 'deploy' ? 'deploy_2026' : 'id_ed25519'); });
+const parseTags = s => s.split(',').map(t => t.trim()).filter(Boolean).slice(0, 6);
+const LOGO = [
+'            .-/+oossssoo+/-.',
+'        `:+ssssssssssssssssss+:`',
+'      -+ssssssssssssssssssyyssss+-',
+'    .ossssssssssssssssssdMMMNysssso.',
+'   /ssssssssssshdmmNNmmyNMMMMhssssss/',
+'  +ssssssssshmydMMMMMMMNddddyssssssss+',
+' /sssssssshNMMMyhhyyyyhmNMMMNhssssssss/',
+'.ssssssssdMMMNhsssssssssshNMMMdssssssss.',
+'+sssshhhyNMMNyssssssssssssyNMMMysssssss+',
+'ossyNMMMNyMMhsssssssssssssshmmmhssssssso',
+'ossyNMMMNyMMhsssssssssssssshmmmhssssssso',
+'+sssshhhyNMMNyssssssssssssyNMMMysssssss+',
+'.ssssssssdMMMNhsssssssssshNMMMdssssssss.',
+' /sssssssshNMMMyhhyyyyhdNMMMNhssssssss/',
+'  +sssssssssdmydMMMMMMMMddddyssssssss+',
+'   /ssssssssssshdmNNNNmyNMMMMhssssss/',
+'    .ossssssssssssssssssdMMMNysssso.',
+'      -+sssssssssssssssssyyyssss+-',
+'        `:+ssssssssssssssssss+:`',
+'            .-/+oossssoo+/-.',
+];
+const ANSI = ['#3a3a3c', '#ff453a', '#30d158', '#ffd60a', '#0a84ff', '#bf5af2', '#64d2ff', '#d1d1d6'];
+const ANSI2 = ['#8e8e93', '#ff6961', '#4ae37a', '#ffe066', '#409cff', '#da8fff', '#8ae2ff', '#ffffff'];
+const DAYS = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'], MON = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+const pad2 = n => String(n).padStart(2, '0');
+const hms = d => `${pad2(d.getUTCHours())}:${pad2(d.getUTCMinutes())}:${pad2(d.getUTCSeconds())}`;
+const fmtDate = d => `${DAYS[d.getUTCDay()]} ${MON[d.getUTCMonth()]} ${String(d.getUTCDate()).padStart(2)} ${hms(d)} UTC ${d.getUTCFullYear()}`;
+const fmtDur = ms => { const t = Math.max(0, Math.floor(ms / 1000)); return `${pad2(Math.floor(t / 3600))}:${pad2(Math.floor(t / 60) % 60)}:${pad2(t % 60)}`; };
+const latBase = ip => ip.startsWith('192.168.') ? 2.6 : ip.startsWith('103.') ? 19 : ip.startsWith('172.') ? 54 : 38;
+const L = (t, c = 'out') => ({ t, c });
+const promptSegs = p => [{ t: `${p.user}@${p.name}`, c: 'pg', w: 600 }, { t: ':' }, { t: p.cwd, c: 'pb', w: 600 }, { t: p.user === 'root' ? '# ' : '$ ' }];
+const THEMES = [
+  { id: 'default', name: 'Shellbay', bg: 'var(--term)', fg: 'var(--termText)', dim: 'var(--tDim)', red: 'var(--tRed)', green: 'var(--tGreen)', blue: 'var(--tBlue)', cursor: 'var(--accent)' },
+  { id: 'dracula', name: 'Dracula', bg: '#282a36', fg: '#f8f8f2', dim: '#6272a4', red: '#ff5555', green: '#50fa7b', blue: '#bd93f9', cursor: '#f8f8f2' },
+  { id: 'nord', name: 'Nord', bg: '#2e3440', fg: '#d8dee9', dim: '#616e88', red: '#bf616a', green: '#a3be8c', blue: '#81a1c1', cursor: '#d8dee9' },
+  { id: 'solarized', name: 'Solarized Dark', bg: '#002b36', fg: '#93a1a1', dim: '#586e75', red: '#dc322f', green: '#859900', blue: '#268bd2', cursor: '#93a1a1' },
+];
+let TH = {};
+const thc = c => TH[c] || LC[c] || c || TH.out || LC.out;
+const DEF_SET = { theme: 'default', fontSize: 13, cursor: 'block', pinOn: false, pin: '', lockMin: 5, keepAlive: 30, timeout: 15 };
+const loadSet = () => { try { return { ...DEF_SET, ...JSON.parse(localStorage.getItem('shellbay.settings') || '{}') }; } catch (e) { return { ...DEF_SET }; } };
+const SHORTCUTS = [
+  { title: 'General', items: [['New Host', '⌘N'], ['Search', '⌘F'], ['Settings', '⌘,'], ['Lock App', '⌃⌘L'], ['Close Menu or Dialog', 'Esc']] },
+  { title: 'Hosts', items: [['Connect to Selected Host', '⌘O'], ['Edit Host', '⌘E'], ['Duplicate Host', '⌘D'], ['Delete Host', '⌘⌫']] },
+  { title: 'Terminal', items: [['New Tab', '⌘T'], ['Show Terminal', '⌘1'], ['Show Monitor', '⌘2'], ['Split Right', '⌘D'], ['Split Down', '⇧⌘D'], ['Clear Screen', '⌃L'], ['Cancel Command', '⌃C'], ['Previous / Next Command', '↑ ↓']] },
+];
+const segsOf = segs => segs.map(sg => ({ t: sg.t, color: thc(sg.c), w: sg.w || 400 }));
+const segify = l => { const segs = segsOf(l.segs || [{ t: l.t, c: l.c }]); return { segs: segs.some(x => x.t) ? segs : [{ t: ' ', color: thc('out'), w: 400 }] }; };
+const lsSegs = items => items.flatMap((n, i) => {
+  const d = n.endsWith('/'), x = n.endsWith('.sh');
+  return [{ t: n.replace(/\/$/, ''), c: d ? 'pb' : x ? 'pg' : 'out', w: d || x ? 600 : 400 }, { t: i < items.length - 1 ? '  ' : '' }];
+});
+const SNIPS = [
+  { id: 'sn1', name: 'Update system', cmd: 'sudo apt update && sudo apt upgrade -y', tags: ['apt', 'maintenance'], out: [
+    'Hit:1 http://archive.ubuntu.com/ubuntu noble InRelease', 'Get:2 http://archive.ubuntu.com/ubuntu noble-updates InRelease [126 kB]', 'Fetched 1,284 kB in 2s (642 kB/s)', 'Reading package lists... Done',
+    'Reading package lists... Done', 'Calculating upgrade... Done', '0 upgraded, 0 newly installed, 0 to remove and 0 not upgraded.'] },
+  { id: 'sn2', name: 'Tail nginx logs', cmd: 'sudo tail -n 20 /var/log/nginx/access.log', tags: ['nginx', 'logs'], out: [
+    '113.161.72.18 - - [29/Oct/2026:09:01:12 +0000] "GET / HTTP/2.0" 200 10718 "-" "Mozilla/5.0"', '66.249.66.1 - - [29/Oct/2026:09:01:40 +0000] "GET /robots.txt HTTP/1.1" 200 68 "-" "Googlebot/2.1"',
+    '113.161.72.18 - - [29/Oct/2026:09:02:03 +0000] "GET /api/health HTTP/2.0" 200 15 "-" "curl/8.4.0"', '203.113.4.77 - - [29/Oct/2026:09:02:31 +0000] "POST /api/login HTTP/2.0" 200 412 "-" "Mozilla/5.0"'] },
+  { id: 'sn3', name: 'Restart Docker', cmd: 'sudo systemctl restart docker && docker ps', tags: ['docker'], out: [
+    'CONTAINER ID   IMAGE           COMMAND                  STATUS         PORTS                  NAMES', 'a1f3c9d2e7b4   app:latest      "node server.js"         Up 2 seconds   0.0.0.0:3000->3000/tcp   app',
+    '5c8e1b0a9f62   nginx:1.27      "/docker-entrypoint.…"   Up 2 seconds   0.0.0.0:80->80/tcp       nginx'] },
+  { id: 'sn4', name: 'Check disk usage', cmd: 'df -h / && du -sh /var/log', tags: ['disk', 'monitoring'], out: [
+    'Filesystem      Size  Used Avail Use% Mounted on', '/dev/sda1        39G   16G   23G  42% /', '1.2G\t/var/log'] },
+  { id: 'sn5', name: 'List open ports', cmd: 'sudo ss -tulpn', tags: ['network', 'security'], out: [
+    'Netid State  Recv-Q Send-Q Local Address:Port Peer Address:Port Process', 'tcp   LISTEN 0      511          0.0.0.0:80        0.0.0.0:*     users:(("nginx",pid=812,fd=6))',
+    'tcp   LISTEN 0      128          0.0.0.0:22        0.0.0.0:*     users:(("sshd",pid=701,fd=3))', 'tcp   LISTEN 0      511          0.0.0.0:3000      0.0.0.0:*     users:(("node",pid=1544,fd=19))'] },
+];
+const MON_N = 60;
+const MON_PROCS = {
+  web: [[1544, 'www-data', 'node /srv/app/server.js', 9, 6.8], [1611, 'www-data', 'node /srv/app/worker.js', 4, 4.2], [812, 'www-data', 'nginx: worker process', 3, 1.1], [811, 'root', 'nginx: master process /usr/sbin/nginx', 0.3, 0.3], [655, 'root', '/usr/bin/dockerd -H fd://', 2, 2.4], [598, 'root', '/usr/bin/containerd', 1.2, 1.3], [2210, 'ubuntu', 'sshd: ubuntu@pts/0', 0.3, 0.2], [341, 'root', '/usr/lib/systemd/systemd-journald', 0.4, 0.5], [1, 'root', '/sbin/init', 0.1, 0.3]],
+  db: [[1188, 'postgres', 'postgres: deploy app_prod 10.0.1.11(51824) SELECT', 14, 6.2], [1102, 'postgres', 'postgres -D /var/lib/postgresql/16/main', 6, 4.1], [1190, 'postgres', 'postgres: deploy app_prod 10.0.1.12(40112) idle', 3, 5.9], [1105, 'postgres', 'postgres: checkpointer', 1.5, 3.2], [1107, 'postgres', 'postgres: walwriter', 1.1, 0.4], [1109, 'postgres', 'postgres: autovacuum launcher', 0.6, 0.3], [2241, 'deploy', 'sshd: deploy@pts/0', 0.3, 0.1], [341, 'root', '/usr/lib/systemd/systemd-journald', 0.4, 0.4], [1, 'root', '/sbin/init', 0.1, 0.2]],
+  vps: [[902, 'root', '/usr/sbin/openvpn --config /etc/openvpn/server.conf', 3, 0.9], [812, 'www-data', 'nginx: worker process', 1.2, 0.8], [733, 'root', '/usr/bin/python3 /usr/bin/fail2ban-server -xf start', 0.8, 1.6], [811, 'root', 'nginx: master process /usr/sbin/nginx', 0.3, 0.3], [2201, 'root', 'sshd: root@pts/0', 0.3, 0.2], [341, 'root', '/usr/lib/systemd/systemd-journald', 0.3, 0.4], [1, 'root', '/sbin/init', 0.1, 0.3]],
+  pi: [[1320, 'pi', 'python3 -m homeassistant --config /config', 7, 9.4], [880, 'pihole', '/usr/bin/pihole-FTL -f', 2, 1.2], [1402, 'pi', 'node /opt/zigbee2mqtt/index.js', 1.8, 2.1], [655, 'root', '/usr/bin/dockerd -H fd://', 1.5, 1.9], [2230, 'pi', 'sshd: pi@pts/0', 0.3, 0.1], [341, 'root', '/usr/lib/systemd/systemd-journald', 0.3, 0.3], [1, 'root', '/sbin/init', 0.1, 0.2]],
+};
+const monProfile = h => {
+  const kind = h.name.startsWith('db') ? 'db' : h.name.includes('pi') ? 'pi' : h.name.startsWith('vps') ? 'vps' : 'web';
+  const arm = (h.os || '').includes('arm64');
+  return {
+    kind, cores: kind === 'db' || arm ? 4 : 2, ram: kind === 'db' ? 15.6 : arm ? 7.6 : 3.8,
+    cpu: { db: 38, pi: 12, vps: 7, web: h.name.startsWith('api') ? 30 : 22 }[kind], mem: { db: 64, pi: 19, vps: 26, web: 34 }[kind],
+    disk: kind === 'db' ? [212, 500] : arm ? [18, 117] : [16, 39],
+    up: 23 * 86400 + 4 * 3600 + 11 * 60 + (h.name.length * 7919) % 86400,
+  };
+};
+const walk = (v, base, amp) => Math.max(1, Math.min(98, v + (base - v) * 0.18 + (Math.random() - 0.5) * amp * 2 + (Math.random() < 0.05 ? amp * 3 : 0)));
+const KB = 1024, MB = KB * 1024, GB = MB * 1024;
+const D = (name, mod, children) => ({ name, dir: true, mod, children });
+const F = (name, size, mod) => ({ name, dir: false, size: Math.round(size), mod });
+const localTree = () => D('', '', [
+  D('Applications', '12 Oct 2026, 09:12', [D('Shellbay.app', '27 Oct 2026, 18:40', [F('Info.plist', 2 * KB, '27 Oct 2026, 18:40')])]),
+  D('Users', '02 Feb 2025, 10:00', [D('minh', '29 Oct 2026, 08:55', [
+    D('Desktop', '29 Oct 2026, 08:55', [F('Screenshot 2026-10-28.png', 2.4 * MB, '28 Oct 2026, 16:22'), F('notes.txt', 3.1 * KB, '27 Oct 2026, 11:03')]),
+    D('Documents', '21 Oct 2026, 14:10', [D('contracts', '03 Sep 2026, 09:30', [F('nda-acme.pdf', 412 * KB, '03 Sep 2026, 09:30')]), F('invoice-oct.pdf', 182 * KB, '21 Oct 2026, 14:10')]),
+    D('Downloads', '26 Oct 2026, 22:41', [F('ubuntu-24.04.1-live-server-amd64.iso', 2.6 * GB, '19 Oct 2026, 20:15'), F('node-v22.11.0.pkg', 78.4 * MB, '26 Oct 2026, 22:41')]),
+    D('Projects', '28 Oct 2026, 19:02', [
+      D('shellbay-web', '28 Oct 2026, 19:02', [D('dist', '28 Oct 2026, 19:02', [F('index.html', 3.2 * KB, '28 Oct 2026, 19:02'), F('app.js', 412 * KB, '28 Oct 2026, 19:02'), F('styles.css', 38 * KB, '28 Oct 2026, 19:02')]), F('package.json', 1.4 * KB, '20 Oct 2026, 10:12'), F('README.md', 4.6 * KB, '15 Oct 2026, 17:48')]),
+      D('api', '25 Oct 2026, 13:30', [F('server.js', 8.4 * KB, '25 Oct 2026, 13:30'), F('.env.example', 0.6 * KB, '12 Oct 2026, 09:01')]),
+    ]),
+    F('backup-2026-10-28.sql', 48.2 * MB, '28 Oct 2026, 03:12'),
+    F('deploy.sh', 2.3 * KB, '24 Oct 2026, 15:44'),
+    F('nginx.conf', 4.1 * KB, '22 Oct 2026, 10:20'),
+  ])]),
+]);
+const remoteTree = h => {
+  const db = h.name.startsWith('db');
+  const items = db ? [
+    D('backups', '28 Oct 2026, 03:00', [F('prod-2026-10-27.sql.gz', 412 * MB, '27 Oct 2026, 03:00'), F('prod-2026-10-28.sql.gz', 418 * MB, '28 Oct 2026, 03:00')]),
+    F('pg_dump.sh', 1.8 * KB, '02 Sep 2026, 11:20'), F('restore.sql', 24 * KB, '14 Aug 2026, 16:05'),
+  ] : [
+    D('app', '28 Oct 2026, 21:10', [D('dist', '28 Oct 2026, 21:10', [F('index.html', 3.2 * KB, '28 Oct 2026, 21:10'), F('app.js', 409 * KB, '28 Oct 2026, 21:10'), F('styles.css', 37 * KB, '28 Oct 2026, 21:10')]), F('server.js', 8.4 * KB, '25 Oct 2026, 14:02'), F('package.json', 1.4 * KB, '20 Oct 2026, 10:40'), F('docker-compose.yml', 2.1 * KB, '11 Oct 2026, 09:12')]),
+    D('backups', '28 Oct 2026, 02:00', [F('app-2026-10-28.tar.gz', 96 * MB, '28 Oct 2026, 02:00')]),
+    D('logs', '29 Oct 2026, 08:59', [F('access.log', 12.4 * MB, '29 Oct 2026, 08:59'), F('error.log', 220 * KB, '29 Oct 2026, 07:41')]),
+    F('deploy.sh', 2.3 * KB, '24 Oct 2026, 15:50'),
+  ];
+  const home = h.user === 'root' ? D('root', '28 Oct 2026, 21:14', items) : D('home', '02 Feb 2025, 10:00', [D(h.user, '28 Oct 2026, 21:14', items)]);
+  return D('', '', [
+    D('etc', '20 Oct 2026, 08:00', [D('nginx', '22 Oct 2026, 10:25', [F('nginx.conf', 1.4 * KB, '22 Oct 2026, 10:25'), D('sites-available', '22 Oct 2026, 10:25', [F('default', 2.2 * KB, '22 Oct 2026, 10:25')])]), F('hosts', 221, '02 Feb 2025, 10:00'), F('hostname', 12, '02 Feb 2025, 10:00')]),
+    home,
+    D('var', '02 Feb 2025, 10:00', [D('log', '29 Oct 2026, 09:00', [F('syslog', 8.2 * MB, '29 Oct 2026, 09:00'), F('auth.log', 640 * KB, '29 Oct 2026, 08:58')]), D('www', '02 Feb 2025, 10:00', [D('html', '18 Oct 2026, 12:00', [F('index.html', 10.7 * KB, '18 Oct 2026, 12:00')])])]),
+  ]);
+};
+const homePath = h => h && h.user === 'root' ? ['root'] : ['home', h ? h.user : 'ubuntu'];
+const sizeOf = n => n.dir ? n.children.reduce((a, c) => a + sizeOf(c), 0) : n.size;
+const fmtSize = b => b < KB ? `${b} bytes` : b < MB ? `${Math.round(b / KB)} KB` : b < GB ? `${(b / MB).toFixed(1)} MB` : `${(b / GB).toFixed(2)} GB`;
+const kindOf = n => n.dir ? 'dir' : /\.(gz|zip|tar|iso|pkg|dmg)$/i.test(n.name) ? 'arc' : /\.(png|jpe?g|gif|svg)$/i.test(n.name) ? 'img' : /\.(js|sh|json|ya?ml|conf|css|html|sql|example|plist)$|^default$/i.test(n.name) ? 'code' : 'doc';
+const sortItems = arr => [...arr].sort((a, b) => (b.dir - a.dir) || a.name.localeCompare(b.name));
+const cloneNode = n => n.dir ? { ...n, children: n.children.map(cloneNode) } : { ...n };
+const fmtEta = s => s >= 60 ? `${Math.floor(s / 60)}m ${pad2(Math.floor(s % 60))}s` : `${Math.max(1, Math.ceil(s))}s`;
+const ST = {
+  online: { c: 'var(--ok)', l: 'Online' }, connecting: { c: 'var(--warn)', l: 'Connecting…' },
+  offline: { c: 'var(--bad)', l: 'Offline' }, failed: { c: 'var(--bad)', l: 'Connection failed' },
+  closed: { c: 'var(--text3)', l: 'Disconnected' },
+};
+const TST = { online: 'Connected', connecting: 'Connecting…', failed: 'Connection failed', closed: 'Disconnected' };
+const LC = { dim: 'var(--tDim)', err: 'var(--tRed)', ok: 'var(--tGreen)', out: 'var(--termText)', pg: 'var(--tGreen)', pb: 'var(--tBlue)', org: '#e95420' };
+const TITLES = { hosts: 'Hosts', keychain: 'Keychain', snippets: 'Snippets', sftp: 'SFTP', ports: 'Port Forwarding', settings: 'Settings' };
+const DESC = {
+  keychain: 'Store SSH keys, certificates and passwords, synced with the macOS Keychain.',
+  snippets: 'Save frequently used commands and run them on one or many hosts at once.',
+  sftp: 'Browse remote file systems and drag files between your Mac and any host.',
+  ports: 'Create local, remote and dynamic tunnels that start with a connection.',
+  settings: 'Appearance, terminal profiles, fonts and keyboard shortcuts.',
+};
+
+class Component extends DCLogic {
+  state = {
+    theme: this.props.theme ?? 'dark', view: this.props.defaultView ?? 'grid',
+    section: 'hosts', group: null, query: '', hosts: SEED, selected: null,
+    menu: null, tabs: [], sessions: {}, active: null, sheet: null, picker: null, now: Date.now(), keys: KEYS.map(k => ({ ...k, seed: rand(40) })), kd: null, toast: null, snips: SNIPS, snd: null,
+    set: loadSet(), sTab: 'appearance', locked: false, pinDlg: null, lockIn: '', lockErr: false,
+    sftp: { lp: ['Users', 'minh'], rh: 'h1', rp: ['home', 'ubuntu'], selL: null, selR: null, over: null, loading: false }, queue: [],
+  };
+  searchRef = React.createRef(); termRef = React.createRef(); scrollRef = React.createRef();
+  menuRef = React.createRef(); nameRef = React.createRef();
+  timers = []; seq = 0;
+
+  componentDidMount() {
+    this.onKey = (e) => {
+      const s = this.state, mod = e.metaKey || e.ctrlKey, k = (e.key || '').toLowerCase();
+      const tag = document.activeElement && document.activeElement.tagName;
+      const inField = tag === 'INPUT' || tag === 'SELECT' || tag === 'TEXTAREA';
+      if (e.key === 'Escape') {
+        if (s.pinDlg) this.setState({ pinDlg: null });
+        else if (s.snd) this.setState({ snd: null });
+        else if (s.kd) this.setState({ kd: null });
+        else if (s.picker) this.setState({ picker: null });
+        else if (s.menu) this.setState({ menu: null });
+        else if (s.sheet) this.setState({ sheet: null });
+        else if (document.activeElement === this.searchRef.current) { this.setState({ query: '' }); this.searchRef.current.blur(); }
+        return;
+      }
+      if (s.locked) return;
+      if (e.metaKey && k === ',') { e.preventDefault(); this.setState({ section: 'settings', group: null, active: null, selected: null }); return; }
+      if (e.metaKey && e.ctrlKey && k === 'l') { e.preventDefault(); this.lock(); return; }
+      if (mod && k === 'f') { e.preventDefault(); this.setState({ active: null, section: 'hosts' }, () => { const el = this.searchRef.current; if (el) { el.focus(); el.select(); } }); return; }
+      if (mod && k === 'n') { e.preventDefault(); this.openSheet(); return; }
+      if (!s.sheet && e.metaKey && k === 't') { e.preventDefault(); this.openPicker(); return; }
+      if (!s.sheet && s.active && e.metaKey && (k === '1' || k === '2')) { e.preventDefault(); this.setTab(s.active, { view: k === '1' ? 'term' : 'monitor' }); return; }
+      if (!s.sheet && s.active && e.metaKey && k === 'd') { e.preventDefault(); this.split(e.shiftKey ? 'column' : 'row'); return; }
+      if (s.sheet || inField || !s.selected) return;
+      if (mod && k === 'o') { e.preventDefault(); this.connect(s.selected); }
+      else if (mod && k === 'e') { e.preventDefault(); this.openSheet(s.selected); }
+      else if (mod && k === 'd') { e.preventDefault(); this.duplicate(s.selected); }
+      else if (mod && e.key === 'Backspace') { e.preventDefault(); this.remove(s.selected); }
+      else if (e.key === 'Enter' && !s.active) this.connect(s.selected);
+    };
+    this.onDown = (e) => {
+      if (this.state.menu && this.menuRef.current && !this.menuRef.current.contains(e.target)) this.setState({ menu: null });
+      const inPick = this.pickerRef.current && this.pickerRef.current.contains(e.target), onPlus = this.plusRef.current && this.plusRef.current.contains(e.target);
+      if (this.state.picker && !inPick && !onPlus) this.setState({ picker: null });
+    };
+    window.addEventListener('keydown', this.onKey);
+    window.addEventListener('mousedown', this.onDown, true);
+    this.lastAct = Date.now();
+    this.onAct = () => { this.lastAct = Date.now(); };
+    ['mousemove', 'mousedown', 'keydown'].forEach(ev => window.addEventListener(ev, this.onAct, true));
+    this.tick = setInterval(() => {
+      const s = this.state;
+      if (s.set.pinOn && !s.locked && Date.now() - this.lastAct > s.set.lockMin * 60000) this.lock();
+      if (s.tabs.length) this.setState({ now: Date.now() });
+    }, 1000);
+    this.monT = setInterval(() => this.stepMon(), 2000);
+  }
+  componentWillUnmount() {
+    window.removeEventListener('keydown', this.onKey);
+    window.removeEventListener('mousedown', this.onDown, true);
+    this.timers.forEach(clearTimeout); clearInterval(this.tick); clearInterval(this.qTick); clearInterval(this.monT);
+    ['mousemove', 'mousedown', 'keydown'].forEach(ev => window.removeEventListener(ev, this.onAct, true));
+  }
+  pickerRef = React.createRef(); plusRef = React.createRef(); kdRef = React.createRef();
+  fsL = localTree(); fsR = {}; drag = null; mon = {};
+  initMon(h) {
+    const p = monProfile(h), cpu = [], ram = [];
+    let c = p.cpu, m = p.mem;
+    for (let i = 0; i < MON_N; i++) { c = walk(c, p.cpu, 6); m = walk(m, p.mem, 1.6); cpu.push(c); ram.push(m); }
+    const o = this.mon[h.id] = { p, cpu, ram, t0: Date.now(), procs: MON_PROCS[p.kind] };
+    this.jitterProcs(o); return o;
+  }
+  jitterProcs(o) {
+    const k = o.cpu[o.cpu.length - 1] / o.p.cpu;
+    o.pv = o.procs.map(([pid, user, cmd, c, mem]) => ({ pid, user, cmd, cpu: Math.min(99, c * k * (0.6 + Math.random() * 0.8)), mem: mem * (0.97 + Math.random() * 0.06) }));
+  }
+  stepMon() {
+    const s = this.state, ids = new Set();
+    Object.values(s.sessions).forEach(se => { if (se.status === 'online' && s.tabs.some(t => t.panes.includes(se.id))) ids.add(se.hostId); });
+    if (!ids.size) return;
+    ids.forEach(id => {
+      const h = this.host(id); if (!h) return;
+      const o = this.mon[id]; if (!o) { this.initMon(h); return; }
+      o.cpu = [...o.cpu.slice(1), walk(o.cpu[o.cpu.length - 1], o.p.cpu, 6)];
+      o.ram = [...o.ram.slice(1), walk(o.ram[o.ram.length - 1], o.p.mem, 1.6)];
+      this.jitterProcs(o);
+    });
+    this.setState({ monV: Date.now() });
+  }
+  monVals(f) {
+    const h = f && f.hostId && this.host(f.hostId);
+    if (!h || f.status !== 'online') {
+      return { available: false, unavailable: true, cards: [], charts: [], procs: [],
+        msg: f && f.status === 'connecting' ? `Waiting for ${f.name} to connect…` : `${f ? f.name : 'This host'} is not connected. Reconnect to see live metrics.` };
+    }
+    const o = this.mon[h.id] || this.initMon(h), p = o.p;
+    const cpu = o.cpu[o.cpu.length - 1], mem = o.ram[o.ram.length - 1], usedG = p.ram * mem / 100;
+    const upS = p.up + Math.floor((this.state.now - o.t0) / 1000);
+    const avg = a => (a.reduce((x, y) => x + y, 0) / a.length).toFixed(0);
+    const path = arr => {
+      const W = 600, H = 150, pts = arr.map((v, i) => `${(i / (MON_N - 1) * W).toFixed(1)} ${(H - v / 100 * H).toFixed(1)}`);
+      const line = 'M' + pts.join(' L');
+      return { line, area: `${line} L${W} ${H} L0 ${H} Z` };
+    };
+    const diskPct = Math.round(p.disk[0] / p.disk[1] * 100);
+    const procs = [...o.pv].sort((a, b) => b.cpu - a.cpu).slice(0, 8);
+    return {
+      available: true, unavailable: false, hostName: h.name, os: `${h.os} · ${p.cores} vCPU · ${p.ram} GiB`,
+      cards: [
+        { label: 'CPU', value: `${cpu.toFixed(0)}%`, sub: `${p.cores} cores · load ${(cpu / 100 * p.cores).toFixed(2)}`, pct: cpu, bar: cpu > 80 ? 'var(--bad)' : cpu > 60 ? 'var(--warn)' : 'var(--accent)', barOp: 1 },
+        { label: 'Memory', value: `${usedG.toFixed(1)} GiB`, sub: `of ${p.ram} GiB · ${mem.toFixed(0)}% used`, pct: mem, bar: '#bf5af2', barOp: 1 },
+        { label: 'Disk', value: `${p.disk[0]} GB`, sub: `of ${p.disk[1]} GB · ${diskPct}% used`, pct: diskPct, bar: 'var(--ok)', barOp: 1 },
+        { label: 'Uptime', value: `${Math.floor(upS / 86400)}d ${Math.floor(upS % 86400 / 3600)}h ${Math.floor(upS % 3600 / 60)}m`, sub: `since ${fmtD(new Date(Date.now() - upS * 1000))}`, pct: 0, bar: 'transparent', barOp: 0 },
+      ],
+      charts: [
+        { title: 'CPU', value: `${cpu.toFixed(1)}%`, color: 'var(--accent)', fill: 'color-mix(in srgb, var(--accent) 16%, transparent)', sub: `avg ${avg(o.cpu)}%`, ...path(o.cpu) },
+        { title: 'Memory', value: `${usedG.toFixed(2)} / ${p.ram} GiB`, color: '#bf5af2', fill: 'color-mix(in srgb, #bf5af2 16%, transparent)', sub: `avg ${avg(o.ram)}%`, ...path(o.ram) },
+      ],
+      procs: procs.map((x, i) => ({ pid: x.pid, user: x.user, cmd: x.cmd, cpu: x.cpu.toFixed(1), mem: x.mem.toFixed(1),
+        cpuColor: x.cpu > 50 ? 'var(--warn)' : 'var(--text)', cpuW: x.cpu > 10 ? 600 : 400, bg: i % 2 ? 'var(--card)' : 'transparent' })),
+    };
+  }
+  treeFor(h) { return this.fsR[h.id] || (this.fsR[h.id] = remoteTree(h)); }
+  dirAt(tree, path) { let d = tree; for (const seg of path) { d = d && d.children.find(c => c.dir && c.name === seg); } return d || null; }
+  setFtp(p) { this.setState(s => ({ sftp: { ...s.sftp, ...p } })); }
+  ftpGo(side, path) { this.setFtp(side === 'local' ? { lp: path, selL: null } : { rp: path, selR: null }); }
+  ftpHost(id) {
+    const h = this.host(id); if (!h) return;
+    this.setFtp({ rh: id, rp: homePath(h), selR: null, loading: h.status !== 'offline' });
+    if (h.status !== 'offline') this.later(h.status === 'connecting' ? 1800 : 600, () => { if (this.state.sftp.rh === id) this.setFtp({ loading: false }); });
+  }
+  enqueue(from, node) {
+    const f = this.state.sftp, h = this.host(f.rh), up = from === 'local';
+    if (!h || h.status === 'offline' || f.loading) { this.showToast('Remote host is not connected'); return; }
+    const dest = up ? this.dirAt(this.treeFor(h), f.rp) : this.dirAt(this.fsL, f.lp); if (!dest) return;
+    const total = Math.max(1, sizeOf(node));
+    const item = { id: 'q' + (++this.seq), name: node.name, node, dest, up, total, done: 0, cur: 0, status: 'queued',
+      speed: (up ? 9 + Math.random() * 14 : 22 + Math.random() * 20) * MB,
+      route: up ? `→ ${h.name}:/${f.rp.join('/')}` : `← ${h.name} → /${f.lp.join('/')}` };
+    this.setState(s => ({ queue: [...s.queue, item] }));
+    if (!this.qTick) this.qTick = setInterval(() => this.stepQueue(), 150);
+  }
+  stepQueue() {
+    let active = 0;
+    const q = this.state.queue.map(it => ({ ...it }));
+    q.forEach(it => { if (it.status === 'active') active++; });
+    q.forEach(it => { if (it.status === 'queued' && active < 2) { it.status = 'active'; active++; } });
+    let live = false;
+    q.forEach(it => {
+      if (it.status === 'queued') live = true;
+      if (it.status !== 'active') return;
+      live = true;
+      it.cur = it.speed * (0.75 + Math.random() * 0.5);
+      it.done = Math.min(it.total, it.done + Math.max(it.cur * 0.15, it.total * 0.07));
+      if (it.done >= it.total) {
+        it.status = 'done';
+        const n = cloneNode(it.node), d = new Date();
+        n.mod = `Today, ${pad2(d.getHours())}:${pad2(d.getMinutes())}`;
+        it.dest.children = [...it.dest.children.filter(c => c.name !== n.name), n];
+      }
+    });
+    this.setState({ queue: q });
+    if (!live) { clearInterval(this.qTick); this.qTick = null; }
+  }
+  ftpVals() {
+    const s = this.state, f = s.sftp, h = this.host(f.rh) || s.hosts[0];
+    const mk = side => {
+      const local = side === 'local', path = local ? f.lp : f.rp;
+      const offline = !local && (!h || h.status === 'offline'), loading = !local && !offline && f.loading;
+      const dir = local ? this.dirAt(this.fsL, path) : (offline || !h ? null : this.dirAt(this.treeFor(h), path));
+      const sel = local ? f.selL : f.selR;
+      const items = dir && !loading ? sortItems(dir.children) : [];
+      const crumbs = [{ label: local ? 'Macintosh HD' : '/', sep: false, onClick: () => this.ftpGo(side, []) },
+        ...path.map((seg, i) => ({ label: seg, sep: true, onClick: () => this.ftpGo(side, path.slice(0, i + 1)) }))]
+        .map((c, i, a) => ({ ...c, color: i === a.length - 1 ? 'var(--text)' : 'var(--text2)', w: i === a.length - 1 ? 600 : 400 }));
+      const ok = !!dir && !loading && !offline;
+      return {
+        side, isLocal: local, isRemote: !local, crumbs,
+        hostOptions: s.hosts.map(x => ({ id: x.id, label: x.name })), hostValue: h ? h.id : '', hostDot: h ? ST[h.status].c : 'var(--text3)', hostName: h ? h.name : '',
+        onHost: e => this.ftpHost(e.target.value),
+        upOpacity: path.length ? 1 : 0.35, onUp: () => { if (path.length) this.ftpGo(side, path.slice(0, -1)); },
+        showRows: ok && items.length > 0, empty: ok && !items.length, loading, error: offline,
+        errorMsg: h ? `connect to host ${h.ip} port ${h.port}: Connection refused` : '',
+        footer: ok ? `${items.length} item${items.length === 1 ? '' : 's'}, ${local ? '212.4 GB' : '22.6 GB'} available` : '',
+        isOver: f.over === side, dropLabel: `${local ? 'Download to' : 'Upload to'} /${path.join('/')}`,
+        rows: items.map((n, i) => {
+          const on = sel === n.name, k = kindOf(n);
+          return {
+            name: n.name, size: n.dir ? '--' : fmtSize(n.size), mod: (n.mod || '').replace(/ 20\d\d,/, ','),
+            isDir: k === 'dir', isCode: k === 'code', isArc: k === 'arc', isImg: k === 'img', isDoc: k === 'doc',
+            bg: on ? 'var(--accent)' : (i % 2 ? 'var(--card)' : 'transparent'), fg: on ? '#fff' : 'var(--text)',
+            sub: on ? 'rgba(255,255,255,0.8)' : 'var(--text2)', icon: on ? '#fff' : (n.dir ? 'var(--accent)' : 'var(--text2)'),
+            onClick: () => this.setFtp(local ? { selL: n.name } : { selR: n.name }),
+            onDbl: () => n.dir ? this.ftpGo(side, [...path, n.name]) : this.enqueue(side, n),
+            onDragStart: e => {
+              this.drag = { side, node: n };
+              try { e.dataTransfer.effectAllowed = 'copy'; e.dataTransfer.setData('text/plain', n.name); } catch (er) {}
+              this.setFtp(local ? { selL: n.name } : { selR: n.name });
+            },
+            onDragEnd: () => { this.drag = null; if (this.state.sftp.over) this.setFtp({ over: null }); },
+          };
+        }),
+        onDragOver: e => {
+          if (!this.drag || this.drag.side === side || !ok) return;
+          e.preventDefault(); try { e.dataTransfer.dropEffect = 'copy'; } catch (er) {}
+          if (this.state.sftp.over !== side) this.setFtp({ over: side });
+        },
+        onDragLeave: e => { if (!e.currentTarget.contains(e.relatedTarget) && this.state.sftp.over === side) this.setFtp({ over: null }); },
+        onDrop: e => {
+          e.preventDefault();
+          const d = this.drag; this.drag = null; this.setFtp({ over: null });
+          if (d && d.side !== side) this.enqueue(d.side, d.node);
+        },
+      };
+    };
+    return { panes: [mk('local'), mk('remote')] };
+  }
+  lockRef = React.createRef();
+  setSet(p) { this.setState(s => { const n = { ...s.set, ...p }; try { localStorage.setItem('shellbay.settings', JSON.stringify(n)); } catch (e) {} return { set: n }; }); }
+  lock() {
+    if (!this.state.set.pinOn) return;
+    this.setState({ locked: true, lockIn: '', lockErr: false, menu: null, picker: null, sheet: null, kd: null, snd: null, pinDlg: null });
+  }
+  onLockInput(v) {
+    const d = v.replace(/\D/g, '').slice(0, 4);
+    if (d.length < 4) return this.setState({ lockIn: d, lockErr: false });
+    if (d === this.state.set.pin) { this.lastAct = Date.now(); this.setState({ locked: false, lockIn: '', lockErr: false }); }
+    else this.setState({ lockIn: '', lockErr: true });
+  }
+  setPd(p) { this.setState(s => ({ pinDlg: s.pinDlg ? { ...s.pinDlg, ...p } : s.pinDlg })); }
+  pdErr(d) {
+    if (d.mode === 'off') return d.pin === this.state.set.pin ? '' : 'Incorrect PIN.';
+    if (!/^\d{4}$/.test(d.pin)) return 'PIN must be exactly 4 digits.';
+    if (d.pin !== d.pin2) return 'PINs do not match.';
+    return '';
+  }
+  pdConfirm() {
+    const d = this.state.pinDlg; if (!d) return;
+    const e = this.pdErr(d); if (e) { this.setPd({ tried: true }); return; }
+    if (d.mode === 'off') { this.setSet({ pinOn: false, pin: '' }); this.showToast('PIN lock turned off'); }
+    else { this.setSet({ pinOn: true, pin: d.pin }); this.lastAct = Date.now(); this.showToast(d.mode === 'set' ? 'PIN lock turned on' : 'PIN changed'); }
+    this.setState({ pinDlg: null });
+  }
+  setSnd(p) { this.setState(s => ({ snd: s.snd ? { ...s.snd, ...p } : s.snd })); }
+  sndErrors(d) {
+    const e = {};
+    if (!d.name.trim()) e.name = 'Name is required.';
+    if (!d.cmd.trim()) e.cmd = 'Command is required.';
+    return e;
+  }
+  sndConfirm() {
+    const d = this.state.snd; if (!d) return;
+    if (d.mode === 'delete') { this.setState(s => ({ snips: s.snips.filter(x => x.id !== d.id), snd: null })); this.showToast(`Deleted “${d.name}”`); return; }
+    if (d.mode === 'run') {
+      const h = this.host(d.hostId); if (!h || h.status === 'offline') return;
+      const sn = this.state.snips.find(x => x.id === d.id);
+      this.setState({ snd: null }); if (sn) this.runSnippet(h.id, sn); return;
+    }
+    if (Object.keys(this.sndErrors(d)).length) { this.setSnd({ tried: true }); return; }
+    const data = { name: d.name.trim(), cmd: d.cmd.trim(), tags: parseTags(d.tags) };
+    if (d.id) this.setState(s => ({ snips: s.snips.map(x => x.id === d.id ? { ...x, ...data, out: x.cmd === data.cmd ? x.out : null } : x), snd: null }));
+    else this.setState(s => ({ snips: [{ id: 'sn' + Date.now(), ...data, out: null }, ...s.snips], snd: null }));
+    this.showToast(d.id ? 'Snippet saved' : 'Snippet added');
+  }
+  whenReady(sid, cb, n = 0) {
+    const se = this.state.sessions[sid]; if (!se) return;
+    if (se.ready) return cb(se);
+    if (se.status === 'failed' || se.status === 'closed' || n > 30) { this.showToast(`Can’t connect to ${se.name}`); return; }
+    this.later(300, () => this.whenReady(sid, cb, n + 1));
+  }
+  runSnippet(hostId, sn) {
+    const h = this.host(hostId); if (!h) return;
+    const finish = sid => this.whenReady(sid, p => {
+      const echo = { segs: [...promptSegs(p), { t: sn.cmd }] };
+      this.patchS(sid, x => ({ lines: [...x.lines, echo], hist: [...x.hist, sn.cmd] }));
+      this.later(450, () => this.push(sid, (sn.out || ['(command finished with exit status 0)']).map(t => L(t))));
+    });
+    const s = this.state, ex = s.tabs.find(t => t.panes.some(p => s.sessions[p] && s.sessions[p].hostId === hostId));
+    if (ex) {
+      const sid = ex.panes.includes(ex.focus) && s.sessions[ex.focus].hostId === hostId ? ex.focus : ex.panes.find(p => s.sessions[p].hostId === hostId);
+      this.setState({ active: ex.id, menu: null }); this.setTab(ex.id, { focus: sid }); finish(sid); return;
+    }
+    const se = this.newSession(h), tid = 't' + (++this.seq);
+    this.setState(st => ({ sessions: { ...st.sessions, [se.id]: se }, tabs: [...st.tabs, { id: tid, panes: [se.id], dir: 'row', focus: se.id }], active: tid, menu: null, picker: null }), () => this.run(se.id));
+    finish(se.id);
+  }
+  showToast(msg) { clearTimeout(this.toastT); this.setState({ toast: msg }); this.toastT = setTimeout(() => this.setState({ toast: null }), 2000); }
+  setKd(p) { this.setState(s => ({ kd: s.kd ? { ...s.kd, ...p } : s.kd })); }
+  kdErrors(kd) {
+    const e = {}, n = kd.name.trim();
+    if (!n) e.name = 'Name is required.';
+    else if (!/^[\w.\-]+$/.test(n)) e.name = 'Use letters, numbers, dot, dash or underscore.';
+    else if (this.state.keys.some(k => k.name === n)) e.name = 'A key with this name already exists.';
+    if (kd.mode === 'import') {
+      const t = kd.text.trim();
+      if (!t) e.text = 'Paste a private key or choose a file.';
+      else if (!/^(-----BEGIN [A-Z ]*PRIVATE KEY-----|ssh-|ecdsa-)/.test(t)) e.text = 'This does not look like a valid SSH key.';
+    }
+    return e;
+  }
+  kdConfirm() {
+    const kd = this.state.kd; if (!kd) return;
+    if (kd.mode === 'delete') {
+      const k = this.state.keys.find(x => x.id === kd.id);
+      this.setState(s => ({ keys: s.keys.filter(x => x.id !== kd.id), kd: null }));
+      this.showToast(`Deleted “${k ? k.name : 'key'}”`); return;
+    }
+    if (Object.keys(this.kdErrors(kd)).length) { this.setKd({ tried: true }); return; }
+    const name = kd.name.trim();
+    const type = kd.mode === 'generate' ? kd.type : (/ssh-rsa|RSA/.test(kd.text) ? 'RSA 4096' : /ecdsa/.test(kd.text) ? 'ECDSA P-256' : 'ED25519');
+    const key = { id: 'k' + Date.now(), name, type, fp: `SHA256:${rand(4)}…${rand(4)}`, created: fmtD(new Date()), seed: rand(40) };
+    this.setState(s => ({ keys: [key, ...s.keys], kd: null }));
+    this.showToast(kd.mode === 'generate' ? `Generated “${name}”` : `Imported “${name}”`);
+  }
+  copyPub(k) {
+    const text = pubOf(k);
+    try { navigator.clipboard && navigator.clipboard.writeText(text).catch(() => {}); } catch (e) {}
+    this.showToast('Đã copy public key');
+  }
+  paneEls = {}; refFns = {}; lastKey = {}; lastFocusKey = '';
+
+  componentDidUpdate(pp, ps) {
+    if (pp.theme !== this.props.theme && this.props.theme) this.setState({ theme: this.props.theme });
+    if (pp.defaultView !== this.props.defaultView && this.props.defaultView) this.setState({ view: this.props.defaultView });
+    if (this.state.sheet && !ps.sheet && this.nameRef.current) this.nameRef.current.focus();
+    if ((this.state.kd && !ps.kd || this.state.snd && !ps.snd) && this.kdRef.current) this.kdRef.current.focus();
+    if (this.state.locked && !ps.locked && this.lockRef.current) this.lockRef.current.focus();
+    const at = this.state.tabs.find(t => t.id === this.state.active);
+    if (!at) { this.lastFocusKey = ''; return; }
+    at.panes.forEach(sid => {
+      const se = this.state.sessions[sid], el = this.paneEls[sid];
+      if (!se || !el || !el.scroll) return;
+      const key = se.lines.length + ':' + at.id + ':' + at.panes.length + ':' + at.dir + ':' + se.ready + ':' + at.view;
+      if (this.lastKey[sid] !== key) { this.lastKey[sid] = key; el.scroll.scrollTop = el.scroll.scrollHeight; }
+    });
+    const fs = this.state.sessions[at.focus];
+    const fkey = at.id + ':' + at.focus + ':' + (fs && fs.ready) + ':' + at.view;
+    const inp = this.paneEls[at.focus] && this.paneEls[at.focus].input;
+    const ae = document.activeElement;
+    const busy = this.state.sheet || this.state.picker || this.state.kd || this.state.snd || this.state.locked || this.state.pinDlg || (ae && (ae.tagName === 'SELECT' || (ae.tagName === 'INPUT' && !ae.dataset.pane)));
+    if (inp && fkey !== this.lastFocusKey && !busy) { this.lastFocusKey = fkey; inp.focus(); }
+  }
+
+  refsFor(sid) {
+    if (!this.refFns[sid]) {
+      const o = this.paneEls[sid] = this.paneEls[sid] || {};
+      this.refFns[sid] = { scroll: el => { o.scroll = el; }, input: el => { o.input = el; } };
+    }
+    return this.refFns[sid];
+  }
+  host(id) { return this.state.hosts.find(h => h.id === id); }
+  patchS(sid, fn) { this.setState(s => s.sessions[sid] ? { sessions: { ...s.sessions, [sid]: { ...s.sessions[sid], ...fn(s.sessions[sid]) } } } : null); }
+  push(sid, lines) { this.patchS(sid, x => ({ lines: [...x.lines, ...lines] })); }
+  setTab(tid, patch) { this.setState(s => ({ tabs: s.tabs.map(t => t.id === tid ? { ...t, ...patch } : t) })); }
+  later(ms, fn) { this.timers.push(setTimeout(fn, ms)); }
+
+  newSession(h) {
+    return { id: 's' + (++this.seq), hostId: h.id, name: h.name, user: h.user, ip: h.ip, port: h.port, os: h.os, auth: h.auth, key: h.key,
+      status: 'connecting', lines: [], ready: false, input: '', cwd: '~', hist: [], hIdx: -1, connectedAt: null, base: latBase(h.ip) };
+  }
+  banner(p) {
+    const arm = p.os.includes('arm64'), v24 = p.os.includes('24.04'), d = new Date();
+    return [
+      L(p.auth === 'password' ? `Authenticated to ${p.ip} using "password".` : `Authenticated to ${p.ip} using "publickey" (${p.key || 'id_ed25519'}).`, 'dim'), L(''),
+      L(`Welcome to Ubuntu ${v24 ? '24.04.1' : '22.04.5'} LTS (GNU/Linux ${v24 ? '6.8.0-45' : '5.15.0-122'}-generic ${arm ? 'aarch64' : 'x86_64'})`), L(''),
+      L(' * Documentation:  https://help.ubuntu.com'), L(' * Management:     https://landscape.canonical.com'), L(' * Support:        https://ubuntu.com/pro'), L(''),
+      L(` System information as of ${fmtDate(d)}`), L(''),
+      L(`  System load:  0.08               Processes:             ${arm ? 118 : 146}`),
+      L(`  Usage of /:   ${arm ? '15.4% of 116.9GB' : '41.2% of 38.58GB'}   Users logged in:       0`),
+      L(`  Memory usage: 23%                IPv4 address for eth0: ${p.ip}`),
+      L('  Swap usage:   0%'), L(''),
+      L('Expanded Security Maintenance for Applications is not enabled.'), L(''),
+      L('0 updates can be applied immediately.'), L(''),
+      L('Last login: Wed Oct 28 21:14:02 2026 from 113.161.72.18'),
+    ];
+  }
+  run(sid) {
+    const se = this.state.sessions[sid]; if (!se) return;
+    const h = this.host(se.hostId) || { status: 'online' };
+    this.patchS(sid, () => ({ status: 'connecting', ready: false, input: '', cwd: '~', connectedAt: null, lines: [L(`$ ssh ${se.user}@${se.ip} -p ${se.port}`, 'dim')] }));
+    this.later(350, () => this.push(sid, [L(`Connecting to ${se.ip} port ${se.port}…`, 'dim')]));
+    if (h.status === 'offline') {
+      this.later(1600, () => {
+        this.push(sid, [L(`ssh: connect to host ${se.ip} port ${se.port}: Connection refused`, 'err')]);
+        this.patchS(sid, () => ({ status: 'failed' }));
+      });
+      return;
+    }
+    this.later(h.status === 'connecting' ? 2600 : 900, () => {
+      this.push(sid, this.banner(this.state.sessions[sid] || se));
+      this.patchS(sid, () => ({ status: 'online', ready: true, connectedAt: Date.now() }));
+    });
+  }
+  openTab(id) {
+    const h = this.host(id); if (!h) return;
+    const se = this.newSession(h), tid = 't' + (++this.seq);
+    this.setState(s => ({ sessions: { ...s.sessions, [se.id]: se }, tabs: [...s.tabs, { id: tid, panes: [se.id], dir: 'row', focus: se.id }], active: tid, menu: null, picker: null }), () => this.run(se.id));
+  }
+  connect(id) {
+    const s = this.state, ex = s.tabs.find(t => t.panes.some(p => s.sessions[p] && s.sessions[p].hostId === id));
+    if (ex) { this.setState({ active: ex.id, menu: null }); return; }
+    this.openTab(id);
+  }
+  openPicker(el) {
+    const tgt = el || this.plusRef.current, r = tgt ? tgt.getBoundingClientRect() : null;
+    const x = r ? Math.min(r.left, window.innerWidth - 290) : window.innerWidth / 2 - 140;
+    this.setState({ picker: { x: Math.max(8, x), y: r ? r.bottom + 4 : 120 }, menu: null });
+  }
+  split(dir) {
+    const at = this.state.tabs.find(t => t.id === this.state.active); if (!at) return;
+    if (at.panes.length >= 4) { if (at.dir !== dir) this.setTab(at.id, { dir }); return; }
+    const cur = this.state.sessions[at.focus], h = cur && this.host(cur.hostId); if (!h) return;
+    const se = this.newSession(h);
+    this.setState(s => ({ sessions: { ...s.sessions, [se.id]: se }, tabs: s.tabs.map(t => t.id === at.id ? { ...t, dir, panes: [...t.panes, se.id], focus: se.id } : t) }), () => this.run(se.id));
+  }
+  closePane(tid, sid) {
+    const t = this.state.tabs.find(x => x.id === tid); if (!t) return;
+    if (t.panes.length <= 1) return this.closeTab(tid);
+    const panes = t.panes.filter(p => p !== sid);
+    this.setTab(tid, { panes, focus: t.focus === sid ? panes[panes.length - 1] : t.focus });
+  }
+  closeTab(id) {
+    this.setState(s => {
+      const tabs = s.tabs.filter(t => t.id !== id);
+      return { tabs, active: s.active === id ? (tabs.length ? tabs[tabs.length - 1].id : null) : s.active };
+    });
+  }
+  fsFor(p) {
+    const db = p.name.startsWith('db');
+    return {
+      '~': db ? ['backups/', 'pg_dump.sh', 'restore.sql'] : ['app/', 'backups/', 'deploy.sh', 'docker-compose.yml', 'logs/'],
+      '~/app': ['node_modules/', 'package.json', 'server.js'],
+      '~/backups': ['2026-10-27.tar.gz', '2026-10-28.tar.gz'],
+      '~/logs': ['access.log', 'error.log'],
+    };
+  }
+  neofetch(p) {
+    const v24 = p.os.includes('24.04'), arm = p.os.includes('arm64');
+    const rows = [
+      ['OS', `Ubuntu ${v24 ? '24.04.1' : '22.04.5'} LTS ${arm ? 'aarch64' : 'x86_64'}`],
+      ['Host', arm ? 'Raspberry Pi 4 Model B Rev 1.5' : 'KVM/QEMU (Standard PC (Q35 + ICH9, 2009))'],
+      ['Kernel', v24 ? '6.8.0-45-generic' : '5.15.0-122-generic'],
+      ['Uptime', '23 days, 4 hours, 11 mins'],
+      ['Packages', arm ? '1012 (dpkg), 4 (snap)' : '742 (dpkg), 6 (snap)'],
+      ['Shell', v24 ? 'bash 5.2.21' : 'bash 5.1.16'],
+      ['Terminal', '/dev/pts/0'],
+      ['CPU', arm ? 'BCM2711 (4) @ 1.800GHz' : 'Intel Xeon (Skylake, IBRS) (2) @ 2.394GHz'],
+      ['Memory', arm ? '1284MiB / 7809MiB' : '912MiB / 3889MiB'],
+    ];
+    const info = [
+      [{ t: p.user, c: 'org', w: 600 }, { t: '@' }, { t: p.name, c: 'org', w: 600 }],
+      [{ t: '-'.repeat(p.user.length + p.name.length + 1) }],
+      ...rows.map(([k, v]) => [{ t: k, c: 'org', w: 600 }, { t: ': ' + v }]),
+      [],
+      ANSI.map(c => ({ t: '███', c })), ANSI2.map(c => ({ t: '███', c })),
+    ];
+    return [L(''), ...LOGO.map((lg, i) => ({ segs: [{ t: lg.padEnd(43), c: 'org', w: 600 }, ...(info[i] || [])] })), L('')];
+  }
+  exec(sid, raw) {
+    const p = this.state.sessions[sid]; if (!p) return;
+    const cmd = raw.trim(), arm = p.os.includes('arm64'), v24 = p.os.includes('24.04');
+    const home = p.user === 'root' ? '/root' : '/home/' + p.user;
+    const echo = { segs: [...promptSegs(p), { t: raw }] };
+    const hist = cmd && p.hist[p.hist.length - 1] !== cmd ? [...p.hist, cmd] : p.hist;
+    const done = (out, extra) => this.patchS(sid, x => ({ input: '', hIdx: -1, hist, lines: [...x.lines, echo, ...out], ...(extra || {}) }));
+    const o = arr => arr.map(t => L(t));
+    const [c0, ...args] = cmd.split(/\s+/);
+    const fs = this.fsFor(p), kernel = v24 ? '6.8.0-45-generic' : '5.15.0-122-generic';
+    if (!cmd) return done([]);
+    switch (c0) {
+      case 'clear': return this.patchS(sid, () => ({ lines: [], input: '', hIdx: -1, hist }));
+      case 'exit': case 'logout':
+        return done([L('logout'), L(`Connection to ${p.ip} closed.`, 'dim')], { ready: false, status: 'closed', connectedAt: null });
+      case 'help': return done([
+        L('Shellbay demo shell — available commands:', 'dim'),
+        L('  ls [-l]   cd <dir>   pwd   whoami   hostname   uptime   uname -a'),
+        L('  df -h   free -h   date   neofetch   echo <text>   history   clear   exit'),
+        L('Tips: ↑/↓ history · ⌃L clear · ⌃C cancel · ⌘D split right · ⇧⌘D split down', 'dim'),
+      ]);
+      case 'ls': {
+        const items = fs[p.cwd] || [];
+        if (args.some(a => a.startsWith('-') && a.includes('l'))) {
+          return done([L(`total ${items.length * 4}`), ...items.map(n => {
+            const d = n.endsWith('/');
+            return { segs: [{ t: `${d ? 'drwxr-xr-x' : n.endsWith('.sh') ? '-rwxr-xr-x' : '-rw-r--r--'} ${d ? 3 : 1} ${p.user} ${p.user} ${String(d ? 4096 : 812 + n.length * 377).padStart(5)} Oct 28 21:14 ` }, ...lsSegs([n])] };
+          })]);
+        }
+        return done(items.length ? [{ segs: lsSegs(items) }] : []);
+      }
+      case 'cd': {
+        const a = (args[0] || '~').replace(/\/$/, '');
+        const next = (a === '~' || a === home || a === '..') ? '~' : a.startsWith('~/') ? a : (p.cwd === '~' ? '~/' + a : p.cwd + '/' + a);
+        if (!fs[next]) return done([L(`-bash: cd: ${args[0]}: No such file or directory`)]);
+        return done([], { cwd: next });
+      }
+      case 'pwd': return done(o([p.cwd.replace(/^~/, home)]));
+      case 'whoami': return done(o([p.user]));
+      case 'hostname': return done(o([p.name]));
+      case 'uptime': return done(o([` ${hms(new Date())} up 23 days,  4:11,  1 user,  load average: 0.08, 0.12, 0.09`]));
+      case 'uname': return done(o([args.includes('-a') ? `Linux ${p.name} ${kernel} #45-Ubuntu SMP PREEMPT_DYNAMIC Fri Aug 30 12:02:04 UTC 2024 ${arm ? 'aarch64' : 'x86_64'} GNU/Linux` : 'Linux']));
+      case 'df': return done(o([
+        'Filesystem      Size  Used Avail Use% Mounted on',
+        'tmpfs           392M  1.1M  391M   1% /run',
+        arm ? '/dev/mmcblk0p2  117G   18G   94G  17% /' : '/dev/sda1        39G   16G   23G  42% /',
+        'tmpfs           2.0G     0  2.0G   0% /dev/shm',
+        arm ? '/dev/mmcblk0p1  505M  154M  351M  31% /boot/firmware' : '/dev/sda15      105M  6.1M   99M   6% /boot/efi',
+      ]));
+      case 'free': return done(o([
+        '               total        used        free      shared  buff/cache   available',
+        arm ? 'Mem:           7.6Gi       1.3Gi       4.9Gi        18Mi       1.5Gi       6.3Gi' : 'Mem:           3.8Gi       0.9Gi       1.6Gi        12Mi       1.3Gi       2.7Gi',
+        arm ? 'Swap:          199Mi          0B       199Mi' : 'Swap:             0B          0B          0B',
+      ]));
+      case 'date': return done(o([fmtDate(new Date())]));
+      case 'neofetch': return done(this.neofetch(p));
+      case 'echo': return done(o([args.join(' ')]));
+      case 'history': return done(o(hist.map((h, i) => `${String(i + 1).padStart(5)}  ${h}`)));
+      default: return done([L(`${c0}: command not found`)]);
+    }
+  }
+  termKey(sid, e) {
+    const p = this.state.sessions[sid]; if (!p) return;
+    const k = (e.key || '').toLowerCase();
+    if (e.key === 'Enter') { e.preventDefault(); this.exec(sid, p.input); }
+    else if (e.key === 'ArrowUp' || e.key === 'ArrowDown') {
+      e.preventDefault(); if (!p.hist.length) return;
+      let i = p.hIdx < 0 ? p.hist.length : p.hIdx;
+      i = e.key === 'ArrowUp' ? Math.max(0, i - 1) : i + 1;
+      if (i >= p.hist.length) this.patchS(sid, () => ({ hIdx: -1, input: '' }));
+      else this.patchS(sid, () => ({ hIdx: i, input: p.hist[i] }));
+    } else if (e.ctrlKey && k === 'l') { e.preventDefault(); this.patchS(sid, () => ({ lines: [] })); }
+    else if (e.ctrlKey && k === 'c') { e.preventDefault(); this.patchS(sid, x => ({ input: '', hIdx: -1, lines: [...x.lines, { segs: [...promptSegs(x), { t: x.input + '^C' }] }] })); }
+  }
+  termVals(at) {
+    const s = this.state, multi = at.panes.length > 1;
+    const th = THEMES.find(t => t.id === s.set.theme) || THEMES[0];
+    const cu = s.set.cursor === 'bar' ? { w: '2px', h: '1.25em', va: 'text-bottom' } : s.set.cursor === 'underline' ? { w: '0.6em', h: '2px', va: 'baseline' } : { w: '0.6em', h: '1.25em', va: 'text-bottom' };
+    const panes = at.panes.map(sid => {
+      const p = s.sessions[sid]; if (!p) return null;
+      const r = this.refsFor(sid), on = sid === at.focus;
+      return {
+        bg: th.bg, fg: th.fg, fs: s.set.fontSize, curW: cu.w, curH: cu.h, curVA: cu.va, curBg: th.cursor,
+        curOp: on ? 1 : 0.35, curAnim: on ? 'sbblink 1.1s steps(1) infinite' : 'none',
+        id: sid, multi, scrollRef: r.scroll, inputRef: r.input, title: `${p.user}@${p.name}`, dot: ST[p.status].c,
+        headFg: on ? 'var(--text)' : 'var(--text3)', headBg: on ? 'var(--toolbar)' : 'var(--tabbar)', bar: on && multi ? 'var(--accent)' : 'transparent',
+        dim: multi && !on ? 0.6 : 1,
+        lines: p.lines.map(segify), ready: p.ready, prompt: segsOf(promptSegs(p)), input: p.input,
+        onFocus: () => { if (at.focus !== sid) this.setTab(at.id, { focus: sid }); },
+        focusInput: () => { const el = this.paneEls[sid] && this.paneEls[sid].input; if (el && !window.getSelection().toString()) el.focus(); },
+        onInput: e => { const v = e.target.value; this.patchS(sid, () => ({ input: v })); },
+        onKey: e => this.termKey(sid, e),
+        onClose: e => { e.stopPropagation(); this.closePane(at.id, sid); },
+      };
+    }).filter(Boolean);
+    const f = s.sessions[at.focus] || {};
+    let latency = '— ms', latColor = 'var(--text3)';
+    if (f.status === 'online') {
+      const n = Math.floor(s.now / 2000) * 7 + parseInt(f.id.slice(1), 10) * 13;
+      const rnd = ((n * 9301 + 49297) % 233280) / 233280;
+      const v = f.base * (0.85 + rnd * 0.4);
+      latency = `${f.base < 10 ? v.toFixed(1) : Math.round(v)} ms`;
+      latColor = v > 120 ? 'var(--warn)' : 'var(--text)';
+    }
+    return {
+      panes, dir: at.dir, isTerm: at.view !== 'monitor', isMon: at.view === 'monitor', dot: ST[f.status || 'closed'].c, statusLabel: TST[f.status] || 'Disconnected',
+      addr: `${f.user}@${f.name}`, latency, latColor,
+      ka: s.set.keepAlive ? `keep-alive ${s.set.keepAlive}s` : 'keep-alive off',
+      elapsed: f.connectedAt ? fmtDur(s.now - f.connectedAt) : '00:00:00', os: f.os,
+      canReconnect: f.status === 'failed' || f.status === 'closed',
+      reconnect: () => this.run(f.id),
+    };
+  }
+
+  openSheet(id) {
+    const h = id ? this.host(id) : null;
+    const form = h ? { name: h.name, ip: h.ip, user: h.user, port: String(h.port), group: h.group, auth: h.auth || 'key', key: h.key || KEYS[0].id, password: h.password || '', tags: (h.tags || []).join(', '), color: h.color || COLORS[0].c }
+      : { name: '', ip: '', user: '', port: '22', group: this.state.group || 'Production', auth: 'key', key: KEYS[0].id, password: '', tags: '', color: COLORS[0].c };
+    this.setState({ sheet: { id: h ? h.id : null, form, tried: false }, menu: null });
+  }
+  validate(f) {
+    const e = {};
+    if (!f.name.trim()) e.name = 'Label is required.';
+    else if (this.state.hosts.some(h => h.name === f.name.trim() && h.id !== this.state.sheet.id)) e.name = 'A host with this label already exists.';
+    const ip = f.ip.trim();
+    if (!ip) e.ip = 'Hostname or IP is required.';
+    else if (!/^[a-zA-Z0-9.\-:]+$/.test(ip)) e.ip = 'Enter a valid hostname or IP address.';
+    const p = Number(f.port);
+    if (!/^\d+$/.test(f.port.trim()) || p < 1 || p > 65535) e.port = 'Port must be 1–65535.';
+    if (!f.user.trim()) e.user = 'Username is required.';
+    if (f.auth === 'password' && !f.password) e.password = 'Password is required.';
+    return e;
+  }
+  submit() {
+    const s = this.state.sheet; if (!s) return;
+    const f = s.form;
+    if (Object.keys(this.validate(f)).length) { this.setState({ sheet: { ...s, tried: true } }); return; }
+    const data = { name: f.name.trim(), ip: f.ip.trim(), user: f.user.trim(), port: Number(f.port), group: f.group, auth: f.auth, key: f.key, password: f.auth === 'password' ? f.password : '', tags: parseTags(f.tags), color: f.color };
+    if (s.id) this.setState(st => ({ sheet: null, hosts: st.hosts.map(h => h.id === s.id ? { ...h, ...data } : h) }));
+    else {
+      const id = 'h' + Date.now();
+      this.setState(st => ({ sheet: null, selected: id, hosts: [...st.hosts, { id, status: 'online', os: 'Ubuntu 24.04 LTS', ...data }] }));
+    }
+  }
+  duplicate(id) {
+    const h = this.host(id); if (!h) return;
+    const nid = 'h' + Date.now();
+    this.setState(s => {
+      const i = s.hosts.findIndex(x => x.id === id), hosts = [...s.hosts];
+      hosts.splice(i + 1, 0, { ...h, id: nid, name: h.name + '-copy' });
+      return { hosts, selected: nid, menu: null };
+    });
+  }
+  remove(id) { this.setState(s => ({ hosts: s.hosts.filter(h => h.id !== id), selected: null, menu: null })); }
+
+  renderVals() {
+    const s = this.state, q = s.query.trim().toLowerCase();
+    const th = THEMES.find(t => t.id === s.set.theme) || THEMES[0];
+    TH = th.id === 'default' ? {} : { out: th.fg, dim: th.dim, err: th.red, ok: th.green, pg: th.green, pb: th.blue };
+    const curOf = (c, big) => c === 'bar' ? { w: '2px', h: '1.25em', va: 'text-bottom' } : c === 'underline' ? { w: '0.6em', h: '2px', va: 'baseline' } : { w: '0.6em', h: '1.25em', va: 'text-bottom' };
+    const cu = curOf(s.set.cursor);
+    const match = h => !q || [h.name, h.ip, h.user, h.group, h.os].some(v => v.toLowerCase().includes(q));
+    const mk = h => {
+      const sel = s.selected === h.id;
+      return {
+        ...h, color: h.color || '#8e8e93', tags: h.tags || [], hasTags: !!(h.tags && h.tags.length), addr: `${h.user}@${h.ip}${h.port !== 22 ? ':' + h.port : ''}`, dot: ST[h.status].c, statusLabel: ST[h.status].l,
+        bg: sel ? 'var(--cardSel)' : (s.view === 'list' ? 'transparent' : 'var(--card)'),
+        ring: sel ? 'inset 0 0 0 1.5px var(--accent)' : 'none',
+        onClick: e => { e.stopPropagation(); this.setState({ selected: h.id }); },
+        onDbl: e => { e.stopPropagation(); this.connect(h.id); },
+        onCtx: e => {
+          e.preventDefault(); e.stopPropagation();
+          this.setState({ selected: h.id, menu: { id: h.id, x: Math.min(e.clientX, window.innerWidth - 208), y: Math.min(e.clientY, window.innerHeight - 130) } });
+        },
+      };
+    };
+    const groups = (s.group ? [s.group] : GROUPS).map(g => {
+      const hs = s.hosts.filter(h => h.group === g && match(h));
+      return { name: g, count: hs.length === 1 ? '1 host' : `${hs.length} hosts`, hosts: hs.map(mk) };
+    }).filter(g => g.hosts.length);
+    const cnt = g => s.hosts.filter(h => h.group === g).length;
+    const nav = (section, group = null) => () => this.setState({ section, group, active: null, selected: null });
+    const isSel = (sec, grp = null) => (s.section === sec && s.group === grp && !s.active) ? 'var(--sel)' : 'transparent';
+    const at = s.tabs.find(t => t.id === s.active);
+    const sectionTitle = s.group || TITLES[s.section];
+    const visible = groups.reduce((n, g) => n + g.hosts.length, 0);
+    let title = sectionTitle, subtitle = '';
+    const fs = at ? s.sessions[at.focus] : null;
+    if (fs) { title = fs.name; subtitle = `${fs.user}@${fs.ip}`; }
+    else if (s.section === 'keychain') subtitle = `${s.keys.length} keys`;
+    else if (s.section === 'snippets') subtitle = `${s.snips.length} snippets`;
+    else if (s.section === 'sftp') { const rh = this.host(s.sftp.rh); subtitle = `Local ⇄ ${rh ? rh.name : '—'}`; }
+    else if (s.section === 'hosts') subtitle = q ? `${visible} of ${s.hosts.length} hosts` : `${visible} hosts`;
+    else subtitle = 'Shellbay';
+    const fset = k => e => { const v = e.target.value; this.setState(st => ({ sheet: { ...st.sheet, form: { ...st.sheet.form, [k]: v } } })); };
+    const menuId = s.menu && s.menu.id;
+    const sf = s.sheet ? s.sheet.form : null;
+    const errs = s.sheet && s.sheet.tried ? this.validate(sf) : {};
+    const bdOf = k => errs[k] ? 'var(--bad)' : 'var(--cardBorder)';
+    const ringOf = k => errs[k] ? '0 0 0 2px color-mix(in srgb, var(--bad) 30%, transparent)' : 'none';
+    const FK = ['name', 'ip', 'port', 'user', 'password'];
+    const bd = {}, ring = {}; FK.forEach(k => { bd[k] = bdOf(k); ring[k] = ringOf(k); });
+    const isKey = !sf || sf.auth === 'key';
+    const segOn = 'var(--btn)', segSh = '0 0.5px 1.5px rgba(0,0,0,0.2)';
+    const curKey = s.keys.find(k => sf && k.id === sf.key) || s.keys[0] || { fp: 'No keys available', created: '—' };
+    const tagChips = sf ? parseTags(sf.tags) : [];
+    const setForm = patch => this.setState(st => ({ sheet: { ...st.sheet, form: { ...st.sheet.form, ...patch } } }));
+
+    return {
+      theme: s.theme,
+      toggleTheme: () => this.setState({ theme: s.theme === 'dark' ? 'light' : 'dark' }),
+      counts: { all: s.hosts.length, production: cnt('Production'), staging: cnt('Staging'), personal: cnt('Personal') },
+      sb: { hosts: isSel('hosts'), keychain: isSel('keychain'), snippets: isSel('snippets'), sftp: isSel('sftp'), ports: isSel('ports'), settings: isSel('settings'), production: isSel('hosts', 'Production'), staging: isSel('hosts', 'Staging'), personal: isSel('hosts', 'Personal') },
+      go: { hosts: nav('hosts'), keychain: nav('keychain'), snippets: nav('snippets'), sftp: nav('sftp'), ports: nav('ports'), settings: nav('settings'), production: nav('hosts', 'Production'), staging: nav('hosts', 'Staging'), personal: nav('hosts', 'Personal') },
+      title, subtitle,
+      isGrid: s.view === 'grid', isList: s.view === 'list',
+      viewBtn: { grid: s.view === 'grid' ? 'var(--sel)' : 'transparent', list: s.view === 'list' ? 'var(--sel)' : 'transparent' },
+      setGrid: () => this.setState({ view: 'grid' }), setList: () => this.setState({ view: 'list' }),
+      searchRef: this.searchRef, query: s.query, hasQuery: !!s.query, noQuery: !s.query,
+      onSearch: e => this.setState({ query: e.target.value, active: null, section: 'hosts' }),
+      clearSearch: () => this.setState({ query: '' }),
+      openAdd: () => this.openSheet(),
+      groups, noResults: !groups.length, hasResults: groups.length > 0,
+      clearSel: () => this.setState({ selected: null }),
+      showHosts: !at && s.section === 'hosts',
+      showPlaceholder: !at && !['hosts', 'keychain', 'sftp', 'snippets', 'settings'].includes(s.section),
+      showSettings: !at && s.section === 'settings',
+      locked: s.locked, lockRef: this.lockRef,
+      lk: {
+        dots: [0, 1, 2, 3].map(i => ({ bg: i < s.lockIn.length ? 'var(--text)' : 'transparent', bd: s.lockErr ? 'var(--bad)' : 'var(--text2)' })),
+        msg: s.lockErr ? 'Incorrect PIN. Try again.' : 'Enter your PIN to unlock', msgColor: s.lockErr ? 'var(--bad)' : 'var(--text2)',
+        value: s.lockIn, onInput: e => this.onLockInput(e.target.value),
+        focus: () => this.lockRef.current && this.lockRef.current.focus(),
+      },
+      hasPd: !!s.pinDlg,
+      pd: (() => {
+        const d = s.pinDlg; if (!d) return {};
+        const err = d.tried ? this.pdErr(d) : '', off = d.mode === 'off';
+        return {
+          title: off ? 'Turn Off PIN Lock' : d.mode === 'set' ? 'Set a PIN' : 'Change PIN',
+          desc: off ? 'Enter your current PIN to turn off app lock.' : 'Choose a 4-digit PIN. You’ll need it to unlock Shellbay.',
+          l1: off ? 'Current PIN' : 'New PIN', showConfirm: !off, pin: d.pin, pin2: d.pin2,
+          bd: err ? 'var(--bad)' : 'var(--cardBorder)', ring: err ? '0 0 0 2px color-mix(in srgb, var(--bad) 30%, transparent)' : 'none',
+          hasErr: !!err, err,
+          onPin: e => this.setPd({ pin: e.target.value.replace(/\D/g, '').slice(0, 4) }), onPin2: e => this.setPd({ pin2: e.target.value.replace(/\D/g, '').slice(0, 4) }),
+          onEnter: e => { if (e.key === 'Enter') this.pdConfirm(); },
+          cancel: () => this.setState({ pinDlg: null }), confirm: () => this.pdConfirm(),
+          okBg: off ? 'var(--bad)' : 'var(--accent)', okLabel: off ? 'Turn Off' : 'Save',
+        };
+      })(),
+      st: (() => {
+        const c = s.set, on = 'var(--btn)', sh = '0 0.5px 1.5px rgba(0,0,0,0.2)';
+        const tab = (id, label) => ({ label, bg: s.sTab === id ? on : 'transparent', sh: s.sTab === id ? sh : 'none', onClick: () => this.setState({ sTab: id }) });
+        const secs = n => n === 0 ? 'Off' : `${n} seconds`;
+        return {
+          tabs: [tab('appearance', 'Appearance'), tab('shortcuts', 'Shortcuts'), tab('security', 'Security'), tab('connection', 'Connection')],
+          isApp: s.sTab === 'appearance', isKeys: s.sTab === 'shortcuts', isSec: s.sTab === 'security', isConn: s.sTab === 'connection',
+          themes: THEMES.map(t => ({ ...t, on: c.theme === t.id, ring: c.theme === t.id ? '0 0 0 2px var(--accent)' : '0 0 0 0.5px var(--cardBorder)', onClick: () => this.setSet({ theme: t.id }) })),
+          fontSize: c.fontSize, fontLabel: `${c.fontSize} pt`, onFont: e => this.setSet({ fontSize: Number(e.target.value) }),
+          cursors: ['block', 'bar', 'underline'].map(k => ({ label: k[0].toUpperCase() + k.slice(1), bg: c.cursor === k ? on : 'transparent', sh: c.cursor === k ? sh : 'none', onClick: () => this.setSet({ cursor: k }) })),
+          pv: { bg: th.bg, fg: th.fg, fs: c.fontSize, green: th.green, blue: th.blue, red: th.red, dim: th.dim, curW: cu.w, curH: cu.h, curVA: cu.va, curBg: th.cursor },
+          shortcuts: SHORTCUTS.map(g => ({ title: g.title, items: g.items.map(([label, k]) => ({ label, keys: (k.includes(' ') || k === 'Esc' ? k.split(' ') : k.split('')).map(x => ({ k: x })) })) })),
+          pinBg: c.pinOn ? 'var(--ok)' : 'var(--text3)', pinLeft: c.pinOn ? 18 : 2,
+          onPinToggle: () => this.setState({ pinDlg: { mode: c.pinOn ? 'off' : 'set', pin: '', pin2: '', tried: false } }),
+          lockOpts: [1, 2, 5, 10, 15, 30].map(n => ({ v: String(n), label: n === 1 ? '1 minute' : `${n} minutes` })), lockValue: String(c.lockMin),
+          onLock: e => this.setSet({ lockMin: Number(e.target.value) }), lockDisabled: !c.pinOn,
+          pinOp: c.pinOn ? 1 : 0.4,
+          onChangePin: () => { if (c.pinOn) this.setState({ pinDlg: { mode: 'change', pin: '', pin2: '', tried: false } }); },
+          lockNow: () => this.lock(),
+          kaOpts: [0, 15, 30, 60, 120].map(n => ({ v: String(n), label: secs(n) })), kaValue: String(c.keepAlive), onKa: e => this.setSet({ keepAlive: Number(e.target.value) }),
+          toOpts: [5, 10, 15, 30, 60].map(n => ({ v: String(n), label: secs(n) })), toValue: String(c.timeout), onTo: e => this.setSet({ timeout: Number(e.target.value) }),
+          kaCfg: c.keepAlive, toCfg: c.timeout,
+        };
+      })(),
+      showSnippets: !at && s.section === 'snippets',
+      snl: (() => {
+        const rows = s.snips.filter(x => !q || [x.name, x.cmd, ...x.tags].some(v => v.toLowerCase().includes(q)));
+        return {
+          has: rows.length > 0, empty: rows.length === 0,
+          emptyTitle: q ? 'No Results' : 'No Snippets', emptyDesc: q ? `No snippets match “${s.query}”.` : 'Create a snippet to save a command you run often.',
+          openNew: () => this.setState({ snd: { mode: 'edit', id: null, name: '', cmd: '', tags: '', tried: false } }),
+          rows: rows.map(x => ({
+            ...x,
+            onEdit: () => this.setState({ snd: { mode: 'edit', id: x.id, name: x.name, cmd: x.cmd, tags: x.tags.join(', '), tried: false } }),
+            onDelete: () => this.setState({ snd: { mode: 'delete', id: x.id, name: x.name } }),
+            onRun: () => this.setState({ snd: { mode: 'run', id: x.id, name: x.name, cmd: x.cmd, hostId: (s.hosts.find(h => h.status === 'online') || {}).id || null } }),
+          })),
+        };
+      })(),
+      hasSnd: !!s.snd,
+      snd: (() => {
+        const d = s.snd; if (!d) return {};
+        const isEdit = d.mode === 'edit', isRun = d.mode === 'run', del = d.mode === 'delete';
+        const er = isEdit && d.tried ? this.sndErrors(d) : {};
+        const red = '0 0 0 2px color-mix(in srgb, var(--bad) 30%, transparent)';
+        const sel = isRun ? s.hosts.find(h => h.id === d.hostId) : null;
+        return {
+          width: isRun ? 460 : del ? 380 : 460, isEdit, isRun,
+          title: del ? `Delete “${d.name}”?` : isRun ? `Run “${d.name}”` : d.id ? 'Edit Snippet' : 'New Snippet',
+          desc: del ? 'This snippet will be removed. This can’t be undone.' : isRun ? 'Choose a host. The command opens in a terminal tab and runs right away.' : 'Save a command to run on any host later.',
+          name: d.name, cmd: d.cmd, tags: d.tags,
+          bd1: er.name ? 'var(--bad)' : 'var(--cardBorder)', ring1: er.name ? red : 'none', hasErr1: !!er.name, err1: er.name || '',
+          bd2: er.cmd ? 'var(--bad)' : 'var(--cardBorder)', ring2: er.cmd ? red : 'none', hasErr2: !!er.cmd, err2: er.cmd || '',
+          onName: e => this.setSnd({ name: e.target.value }), onCmd: e => this.setSnd({ cmd: e.target.value }), onTags: e => this.setSnd({ tags: e.target.value }),
+          hosts: isRun ? s.hosts.map(h => {
+            const on = d.hostId === h.id, off = h.status === 'offline';
+            return { name: h.name, ip: h.ip, dot: ST[h.status].c, note: off ? 'Offline' : h.status === 'connecting' ? 'Slow' : '',
+              bg: on ? 'var(--accent)' : 'transparent', fg: on ? '#fff' : 'var(--text)', op: off ? 0.4 : 1,
+              onClick: () => { if (!off) this.setSnd({ hostId: h.id }); } };
+          }) : [],
+          cancel: () => this.setState({ snd: null }), confirm: () => this.sndConfirm(),
+          okBg: del ? 'var(--bad)' : 'var(--accent)', okLabel: del ? 'Delete' : isRun ? 'Run' : 'Save', okOp: isRun && !sel ? 0.45 : 1,
+        };
+      })(),
+      showSftp: !at && s.section === 'sftp',
+      ftp: !at && s.section === 'sftp' ? this.ftpVals() : { panes: [] },
+      hasQueue: s.queue.length > 0,
+      queueSummary: (() => {
+        const c = st => s.queue.filter(q => q.status === st).length;
+        return [[c('active'), 'active'], [c('queued'), 'queued'], [c('done'), 'completed']].filter(x => x[0]).map(x => `${x[0]} ${x[1]}`).join(' · ');
+      })(),
+      clearDone: () => this.setState(st => ({ queue: st.queue.filter(q => q.status === 'active' || q.status === 'queued') })),
+      queueRows: s.queue.map(q => {
+        const pct = Math.min(100, Math.round(q.done / q.total * 100));
+        const detail = q.status === 'active' ? `${fmtSize(Math.round(q.done))} of ${fmtSize(q.total)} · ${fmtSize(Math.round(q.cur))}/s · ${fmtEta((q.total - q.done) / q.cur)}`
+          : q.status === 'queued' ? 'Waiting…' : q.status === 'done' ? `Completed · ${fmtSize(q.total)}` : 'Cancelled';
+        return {
+          name: q.name, route: q.route, up: q.up, down: !q.up, pct, pctLabel: `${pct}%`, detail,
+          iconColor: q.up ? 'var(--accent)' : 'var(--ok)',
+          barColor: q.status === 'done' ? 'var(--ok)' : q.status === 'cancelled' ? 'var(--text3)' : 'var(--accent)',
+          detailColor: q.status === 'done' ? 'var(--ok)' : 'var(--text2)',
+          canCancel: q.status === 'active' || q.status === 'queued',
+          onCancel: () => this.setState(st => ({ queue: st.queue.map(x => x.id === q.id ? { ...x, status: 'cancelled' } : x) })),
+        };
+      }),
+      showKeychain: !at && s.section === 'keychain',
+      kdRef: this.kdRef, hasKd: !!s.kd, hasToast: !!s.toast, toast: s.toast || '',
+      kc: {
+        hasKeys: s.keys.length > 0, empty: s.keys.length === 0,
+        openGenerate: () => this.setState({ kd: { mode: 'generate', name: '', type: 'ED25519', text: '', tried: false } }),
+        openImport: () => this.setState({ kd: { mode: 'import', name: '', type: '', text: '', tried: false } }),
+        rows: s.keys.map(k => {
+          const n = s.hosts.filter(h => h.auth === 'key' && h.key === k.id).length;
+          return { ...k, usedBy: n ? `Used by ${n} host${n > 1 ? 's' : ''}` : 'Not in use',
+            onCopy: () => this.copyPub(k), onDelete: () => this.setState({ kd: { mode: 'delete', id: k.id, name: k.name, n } }) };
+        }),
+      },
+      kd: (() => {
+        const kd = s.kd; if (!kd) return {};
+        const er = kd.tried && kd.mode !== 'delete' ? this.kdErrors(kd) : {}, del = kd.mode === 'delete';
+        return {
+          width: del ? 380 : 460, isGen: kd.mode === 'generate', isImp: kd.mode === 'import',
+          title: del ? `Delete “${kd.name}”?` : kd.mode === 'generate' ? 'Generate SSH Key' : 'Import SSH Key',
+          desc: del ? (kd.n ? `${kd.n} host${kd.n > 1 ? 's use' : ' uses'} this key and will no longer be able to authenticate with it. This can’t be undone.` : 'This key will be removed from your Keychain. This can’t be undone.')
+            : kd.mode === 'generate' ? 'Creates a new key pair. The private key is stored in your macOS Keychain.' : 'Add an existing private key to your Keychain.',
+          name: kd.name, text: kd.text, bd: er.name ? 'var(--bad)' : 'var(--cardBorder)', ring: er.name ? '0 0 0 2px color-mix(in srgb, var(--bad) 30%, transparent)' : 'none',
+          bd2: er.text ? 'var(--bad)' : 'var(--cardBorder)', ring2: er.text ? '0 0 0 2px color-mix(in srgb, var(--bad) 30%, transparent)' : 'none',
+          hasErr: !!er.name, err: er.name || '', hasErr2: !!er.text, err2: er.text || '',
+          onName: e => this.setKd({ name: e.target.value }), onText: e => this.setKd({ text: e.target.value }),
+          onEnter: e => { if (e.key === 'Enter') this.kdConfirm(); },
+          types: KEY_TYPES.map(t => ({ label: t.label, bg: kd.type === t.label ? 'var(--btn)' : 'transparent', sh: kd.type === t.label ? '0 0.5px 1.5px rgba(0,0,0,0.2)' : 'none', onClick: () => this.setKd({ type: t.label }) })),
+          typeHint: (KEY_TYPES.find(t => t.label === kd.type) || {}).hint || '',
+          cancel: () => this.setState({ kd: null }), confirm: () => this.kdConfirm(),
+          okBg: del ? 'var(--bad)' : 'var(--accent)', okLabel: del ? 'Delete' : kd.mode === 'generate' ? 'Generate' : 'Import',
+        };
+      })(),
+      ph: { title: TITLES[s.section], desc: DESC[s.section] || '', keychain: s.section === 'keychain', snippets: s.section === 'snippets', sftp: s.section === 'sftp', ports: s.section === 'ports', settings: s.section === 'settings' },
+      hasTabs: s.tabs.length > 0,
+      homeTab: { label: sectionTitle, bg: at ? 'transparent' : 'var(--tabActive)', color: at ? 'var(--text2)' : 'var(--text)', onClick: () => this.setState({ active: null }) },
+      tabs: s.tabs.map(t => {
+        const f = s.sessions[t.focus] || {}, on = t.id === s.active;
+        return {
+          id: t.id, name: f.name, split: t.panes.length > 1, dot: ST[f.status || 'closed'].c,
+          bg: on ? 'var(--tabActive)' : 'transparent', fg: on ? 'var(--text)' : 'var(--text2)',
+          onClick: () => this.setState({ active: t.id }),
+          onClose: e => { e.stopPropagation(); this.closeTab(t.id); },
+        };
+      }),
+      plusRef: this.plusRef,
+      openPicker: e => s.picker ? this.setState({ picker: null }) : this.openPicker(e.currentTarget),
+      hasPicker: !!s.picker, pickerRef: this.pickerRef, pickerX: s.picker ? s.picker.x : 0, pickerY: s.picker ? s.picker.y : 0,
+      pickHosts: s.hosts.map(h => ({ name: h.name, ip: h.ip, dot: ST[h.status].c, onClick: () => this.openTab(h.id) })),
+      showTerm: !!at, showViewToggle: !at,
+      splitRight: () => this.split('row'), splitDown: () => this.split('column'),
+      showSplit: !!at && (at.view || 'term') === 'term',
+      viewTerm: () => at && this.setTab(at.id, { view: 'term' }), viewMon: () => at && this.setTab(at.id, { view: 'monitor' }),
+      vt: (() => { const m = at && at.view === 'monitor', on = 'var(--btn)', sh = '0 0.5px 1.5px rgba(0,0,0,0.2)';
+        return { term: m ? 'transparent' : on, termSh: m ? 'none' : sh, mon: m ? on : 'transparent', monSh: m ? sh : 'none' }; })(),
+      mon: at && at.view === 'monitor' ? this.monVals(fs) : { cards: [], charts: [], procs: [] },
+      splitBtn: { row: at && at.panes.length > 1 && at.dir === 'row' ? 'var(--sel)' : 'transparent', column: at && at.panes.length > 1 && at.dir === 'column' ? 'var(--sel)' : 'transparent' },
+      term: at ? this.termVals(at) : { panes: [], dir: 'row' },
+
+      hasMenu: !!s.menu, menuRef: this.menuRef, menuX: s.menu ? s.menu.x : 0, menuY: s.menu ? s.menu.y : 0,
+      prevent: e => e.preventDefault(),
+      act: {
+        connect: () => this.connect(menuId), edit: () => this.openSheet(menuId),
+        duplicate: () => this.duplicate(menuId), del: () => this.remove(menuId),
+      },
+      hasSheet: !!s.sheet, nameRef: this.nameRef,
+      sheetTitle: s.sheet && s.sheet.id ? 'Edit Host' : 'New Host',
+      sheetDesc: s.sheet && s.sheet.id ? 'Changes apply to new sessions.' : 'Connect with your default key (id_ed25519).',
+      form: s.sheet ? s.sheet.form : {},
+      f: { name: fset('name'), ip: fset('ip'), user: fset('user'), port: fset('port'), group: fset('group'), key: fset('key'), password: fset('password'), tags: fset('tags') },
+      bd, ring,
+      err: { name: errs.name || '', user: errs.user || '', password: errs.password || '', hostLine: [errs.ip, errs.port].filter(Boolean).join(' ') },
+      noPwErr: !errs.password,
+      isKey, isPw: !isKey,
+      setAuthKey: () => setForm({ auth: 'key' }), setAuthPw: () => setForm({ auth: 'password' }),
+      authBtn: { key: isKey ? segOn : 'transparent', keyShadow: isKey ? segSh : 'none', pw: !isKey ? segOn : 'transparent', pwShadow: !isKey ? segSh : 'none' },
+      keys: s.keys.map(k => ({ id: k.id, label: `${k.name} — ${k.type}` })), keyHint: `${curKey.fp} · added ${curKey.created}`,
+      tagChips, hasTagChips: tagChips.length > 0,
+      swatches: COLORS.map(c => ({ ...c, ring: sf && sf.color === c.c ? '0 0 0 2px var(--sheet), 0 0 0 3.5px ' + c.c : 'inset 0 0 0 0.5px rgba(0,0,0,0.2)', onClick: () => setForm({ color: c.c }) })),
+      closeSheet: () => this.setState({ sheet: null }),
+      submitSheet: () => this.submit(),
+      submitLabel: 'Save',
+      sheetKey: e => { if (e.key === 'Enter' && e.target.tagName === 'INPUT') this.submit(); },
+    };
+  }
+}
+</script>
+</body>
+</html>
